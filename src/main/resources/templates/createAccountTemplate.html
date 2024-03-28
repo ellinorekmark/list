@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header th:include="header :: header(user=${user})" ></header>
+<header th:insert="~{header :: header(user=${user})}" ></header>
 <h2>Create an account</h2>
 <form th:action="@{/createAccount}" method="post" th:object="${newUser}">
   <span>Username: </span><input type="text" th:field="*{username}"><br/>

@@ -21,6 +21,7 @@
             <p><a href="/account">My Account</a></p>
             <p><a href="/logout">Logout</a></p>
             <h3>Lists</h3>
+            <a href="/createList"><p>+ New List</p></a>
             <div th:each="list: ${user.getLists()}">
                 <p th:text=" ${list.getName()}"></p>
             </div>

@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header th:include="header :: header(user=${user})" ></header>
-<h2>Home</h2>
+<header th:insert="header :: header(user=${user})" ></header>
+<h2 th:text="${list.getName()}"></h2>
+<h3 th:text="${list.getType()}"></h3>
 
 </body>
 </html>

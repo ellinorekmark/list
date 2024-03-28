@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-public class CreateUser {
+public class SimpleUser {
     @Pattern(regexp = "^[\\w-]{2,10}$", message = "Invalid username")
     private String username;
     @Email
@@ -12,10 +12,10 @@ public class CreateUser {
     @NotBlank
     private String password;
 
-    public CreateUser() {
+    public SimpleUser() {
     }
 
-    public CreateUser(String username, String email, String password) {
+    public SimpleUser(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
