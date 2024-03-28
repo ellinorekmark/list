@@ -67,7 +67,7 @@ public class User {
         this.username = username;
     }
 
-    public List<UserList> getUserLists() {
+    public List<UserList> getLists() {
         return userLists;
     }
 
@@ -77,4 +77,5 @@ public class User {
     public void addList(UserList list){
         userLists.add(list);
     }
+
 }

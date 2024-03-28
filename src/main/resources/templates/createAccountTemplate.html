@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create An Account</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header th:include="header :: header(user=${user})" ></header>
+<h2>Create an account</h2>
+<form th:action="@{/createAccount}" method="post" th:object="${newUser}">
+  <span>Username: </span><input type="text" th:field="*{username}"><br/>
+  <span>Email: </span><input type="text" th:field="*{email}"><br/>
+  <span>Password: </span><input type="password" th:field="*{password}"><br/>
+  <input type="submit" value="Create Account">
+</form>
+</body>
+</html>

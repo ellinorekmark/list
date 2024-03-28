@@ -1,7 +1,6 @@
 body {
     margin:0px;
-    background: #181818;
-    color: aquamarine;
+    size: 30px;
 }
 h1{
     margin:0px;
@@ -10,7 +9,6 @@ h1{
 }
 nav{
     font-size: 64px;
-    background-color: #703692;
 }
 .hamburger-button {
     display: inline-block;
@@ -25,7 +23,6 @@ nav{
 .bar3 {
     width: 80px;
     height: 10px;
-    background-color: aliceblue;
     margin: 10px 0;
     transition: 0.4s;
 }
@@ -45,8 +42,6 @@ nav{
     transform: translate(0, -20px) rotate(45deg);
 }
 header {
-    background-color: #703692;
-    color: aliceblue;
     height: 100px;
 
 }

@@ -17,14 +17,18 @@
 <nav id="menu" class="closed">
     <div>
         <div th:if="${user != null}">
-            <a href="/account">My Account</a>
-            <a href="/logout">Logout</a>
+            <h3>Account</h3>
+            <p><a href="/account">My Account</a></p>
+            <p><a href="/logout">Logout</a></p>
+            <h3>Lists</h3>
+            <div th:each="list: ${user.getLists()}">
+                <p th:text=" ${list.getName()}"></p>
+            </div>
         </div>
         <div th:unless="${user != null}">
-            <h3>Account</h3>
-            <a href="/login">Login</a>
-            <a href="/createaccount">Create account</a>
-            <h3>Lists</h3>
+            <p><a href="/login">Login</a></p>
+            <p><a href="/createAccount">Create account</a></p>
+
 
         </div>
 
