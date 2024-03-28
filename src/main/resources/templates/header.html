@@ -16,14 +16,18 @@
 </header>
 <nav id="menu" class="closed">
     <div>
-        <h3>Account</h3>
-        <div class="item" th:each="p: ${accountPages}">
-            <p th:text="${p}"></p>
+        <div th:if="${user != null}">
+            <a href="/account">My Account</a>
+            <a href="/logout">Logout</a>
         </div>
-        <h3>Lists</h3>
-        <div class="item" th:each="l: ${lists}">
-            <p th:text="${l}"></p>
+        <div th:unless="${user != null}">
+            <h3>Account</h3>
+            <a href="/login">Login</a>
+            <a href="/createaccount">Create account</a>
+            <h3>Lists</h3>
+
         </div>
+
     </div>
 </nav>
 <script th:inline="javascript">

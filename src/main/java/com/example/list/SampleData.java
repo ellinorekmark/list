@@ -51,11 +51,11 @@ public class SampleData implements CommandLineRunner {
         System.out.println(String.format("%s: %s: \n %s", user.getUsername(), user.getUserLists().get(0).getName(), user.getUserLists().get(0).getItems().get(0).getText()));
 
 */
-        user.setEmail("ellinor@dummyemail.com");
+/*        user.setEmail("ellinor@dummyemail.com");
         user.setUsername("Ellinor");
         user.setPassword("pw");
         user.setId(1L);
-        repository.save(user);
+        repository.save(user);*/
 
     }
 

@@ -29,6 +29,12 @@ public class User {
         userLists = new ArrayList<>();
     }
 
+    public User(String email, String username, String passwordHash) {
+        this.email = email;
+        this.username = username;
+        this.password = passwordHash;
+    }
+
     public Long getId() {
         return id;
     }
