@@ -1,6 +1,6 @@
 package com.example.list;
 
-import com.example.list.dao.UserDAO;
+import com.example.list.dao.User;
 import com.example.list.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ public class ListController {
     @Autowired
     UserService userService;
 
-    UserDAO user;
+    User user;
 
 
     @GetMapping("/")

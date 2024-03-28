@@ -3,9 +3,11 @@ package com.example.list.dao;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
-@Table(name = "userlists")
-public class UserListDAO {
+@Table(name = "user_lists")
+public class UserList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +21,10 @@ public class UserListDAO {
     @Column(nullable = false, columnDefinition = "varchar(255) default 'basic'")
     private String type;
 
-    public UserListDAO() {
+    @OneToMany(mappedBy = "listId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ListItem> items;
+
+    public UserList() {
     }
 
     public Long getId() {
@@ -52,5 +57,16 @@ public class UserListDAO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<ListItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ListItem> items) {
+        this.items = items;
+    }
+    public void addItem(ListItem item){
+        items.add(item);
     }
 }
