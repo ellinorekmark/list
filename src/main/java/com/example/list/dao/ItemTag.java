@@ -17,12 +17,12 @@ public class ItemTag {
     private String tag;
 
     @Column
-    private String value;
+    private int value;
 
     public ItemTag() {
     }
 
-    public ItemTag(String tag, String value) {
+    public ItemTag(String tag, int value) {
         this.tag = tag;
         this.value = value;
     }
@@ -43,11 +43,11 @@ public class ItemTag {
         this.tag = tag;
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(int value) {
         this.value = value;
     }
 

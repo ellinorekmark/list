@@ -23,7 +23,7 @@ public class ListItem {
     private List<ItemTag> itemTags;
 
     @Transient
-    private Map<String,String> tags;
+    private Map<String,Integer> tags;
 
     public ListItem() {
         itemTags = new ArrayList<>();
@@ -59,7 +59,7 @@ public class ListItem {
     }
 
 
-    public Map<String, String> getTags() {
+    public Map<String, Integer> getTags() {
         return tags;
     }
 
@@ -71,7 +71,7 @@ public class ListItem {
         this.listId = listId;
     }
 
-    public void setTags(Map<String, String> tags) {
+    public void setTags(Map<String, Integer> tags) {
         this.tags = tags;
     }
     public void addTag(ItemTag tag){

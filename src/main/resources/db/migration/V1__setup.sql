@@ -12,6 +12,7 @@ CREATE TABLE user_lists
     user_id INT NOT NULL,
     name   VARCHAR(255) DEFAULT 'untitled',
     type   VARCHAR(255) DEFAULT 'basic',
+    description VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
@@ -28,7 +29,7 @@ CREATE TABLE item_tags
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     list_item_id INT NOT NULL,
     tag VARCHAR(255),
-    value VARCHAR(255),
+    value INT,
     FOREIGN KEY (list_item_id) REFERENCES list_items(id)
 
 );

@@ -1,4 +1,4 @@
-package com.example.list.model;
+package com.example.list.simple;
 
 public enum ListType {
     BASIC{

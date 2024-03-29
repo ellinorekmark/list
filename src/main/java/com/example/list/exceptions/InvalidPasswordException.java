@@ -1,4 +1,4 @@
-package com.example.list.service;
+package com.example.list.exceptions;
 
 public class InvalidPasswordException extends Exception {
     public InvalidPasswordException() {

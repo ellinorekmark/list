@@ -2,8 +2,11 @@ package com.example.list.service;
 
 import com.example.list.dao.User;
 import com.example.list.dao.UserList;
-import com.example.list.model.CreateList;
-import com.example.list.model.SimpleUser;
+import com.example.list.exceptions.AccountMissingException;
+import com.example.list.exceptions.EmailExistsException;
+import com.example.list.exceptions.InvalidPasswordException;
+import com.example.list.simple.SimpleList;
+import com.example.list.simple.SimpleUser;
 import com.example.list.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,7 +68,7 @@ public class UserService {
         return user;
     }
 
-    public UserList addList(CreateList createList){
+    public UserList addList(SimpleList createList){
         UserList list = new UserList();
         list.setUserId(user.getId());
         list.setName(createList.getName());

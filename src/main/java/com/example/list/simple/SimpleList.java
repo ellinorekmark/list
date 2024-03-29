@@ -1,16 +1,16 @@
-package com.example.list.model;
+package com.example.list.simple;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class CreateList {
-    @NotBlank
+public class SimpleList {
+    @NotBlank(message = "Please give your list a name.")
     private String name;
     //TODO: create validation for list types
-    @NotBlank
+    @NotBlank(message="List needs a valid type.")
     private String type;
 
 
-    public CreateList() {
+    public SimpleList() {
     }
 
     public String getName() {

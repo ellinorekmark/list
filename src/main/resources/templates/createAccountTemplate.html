@@ -9,10 +9,23 @@
 <body>
 <header th:insert="~{header :: header(user=${user})}" ></header>
 <h2>Create an account</h2>
+<p th:if="${error != null}" th:text="${error}" class="error"></p>
 <form th:action="@{/createAccount}" method="post" th:object="${newUser}">
-  <span>Username: </span><input type="text" th:field="*{username}"><br/>
-  <span>Email: </span><input type="text" th:field="*{email}"><br/>
-  <span>Password: </span><input type="password" th:field="*{password}"><br/>
+<label>
+  <p>Username:</p>
+  <input type="text" th:field="*{username}">
+</label><br/>
+  <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+<label>
+  <p>Email:</p>
+  <input type="text" th:field="*{email}">
+</label><br/>
+  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" ></p>
+<label>
+  <p>Password:</p>
+  <input type="password" th:field="*{password}">
+</label><br/>
+  <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></p>
   <input type="submit" value="Create Account">
 </form>
 </body>

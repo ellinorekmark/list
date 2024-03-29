@@ -2,15 +2,21 @@ package com.example.list;
 
 import com.example.list.dao.User;
 import com.example.list.dao.UserList;
-import com.example.list.model.CreateList;
-import com.example.list.model.SimpleUser;
-import com.example.list.model.ListType;
+import com.example.list.exceptions.AccountMissingException;
+import com.example.list.exceptions.EmailExistsException;
+import com.example.list.exceptions.InvalidPasswordException;
+import com.example.list.simple.SimpleList;
+import com.example.list.simple.SimpleUser;
+import com.example.list.simple.ListType;
 import com.example.list.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -63,27 +69,34 @@ public class WebController {
     }
 
     @PostMapping("/createAccount")
-    String newAccount(Model m, @Valid SimpleUser simpleUser){
+    String newAccount(Model m, @Valid @ModelAttribute("newUser") SimpleUser newUser, BindingResult br){
+        if(br.hasErrors()){
+            return CREATE_USER;
+        }
         try {
-            User user  = userService.createAccount(simpleUser);
+            User user  = userService.createAccount(newUser);
             m.addAttribute("user", user);
             return HOME;
         } catch (EmailExistsException e) {
-            m.addAttribute("There is already an account associated with that email.");
+            m.addAttribute("error", "There is already an account associated with that email.");
+
             return CREATE_USER;
         }
     }
 
     @GetMapping("/createList")
     String list(Model m){
-        m.addAttribute("list", new CreateList());
+        m.addAttribute("list", new SimpleList());
         m.addAttribute("listTypes", ListType.values());
 
         return CREATE_LIST;
     }
 
     @PostMapping("/createList")
-    String createList(Model m, @Valid CreateList createList){
+    String createList(Model m, @Valid @ModelAttribute("list") SimpleList createList, BindingResult br){
+        if(br.hasErrors()){
+            return CREATE_LIST;
+        }
         UserList list = userService.addList(createList);
         m.addAttribute("list",list);
 

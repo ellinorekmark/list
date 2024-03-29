@@ -1,15 +1,15 @@
-package com.example.list.model;
+package com.example.list.simple;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public class SimpleUser {
-    @Pattern(regexp = "^[\\w-]{2,10}$", message = "Invalid username")
+    @Pattern(regexp = "^[\\w-]{2,10}$", message= "Invalid username: Must be 2-10 characters, no special characters.")
     private String username;
-    @Email
+    @Email(message="Must be a valid email address.")
     private String email;
-    @NotBlank
+    @NotBlank(message="Must be a valid password.")
     private String password;
 
     public SimpleUser() {
