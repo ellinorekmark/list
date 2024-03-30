@@ -14,7 +14,7 @@
     <span>Name: </span><input type="text" th:field="*{name}">
     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></p>
     <span>Type: </span><select th:field="*{type}">
-    <option  th:each="t : ${listTypes}" th:value="${t}" th:text="${t.fancyName()}"></option>
+    <option  th:each="t : ${listTypes}" th:value="${t}" th:text="${t.description()}"></option>
     <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="error"></p>
 
 </select>

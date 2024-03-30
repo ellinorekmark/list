@@ -1,4 +1,4 @@
-package com.example.list.simple;
+package com.example.list;
 
 public enum ListType {
     BASIC{
@@ -6,7 +6,7 @@ public enum ListType {
         public String toString(){
             return "Basic";
         }
-        public String fancyName(){
+        public String description(){
             return "Basic";
         }
     }, CHECK{
@@ -14,7 +14,7 @@ public enum ListType {
         public String toString() {
             return "Check";
         }
-        public String fancyName(){
+        public String description(){
             return "Checklist";
         }
     }

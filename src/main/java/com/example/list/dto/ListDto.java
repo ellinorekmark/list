@@ -1,9 +1,8 @@
-package com.example.list.simple;
+package com.example.list.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public class SimpleList {
+public class ListDto {
     @NotBlank(message = "Please give your list a name.")
     private String name;
     //TODO: create validation for list types
@@ -11,7 +10,7 @@ public class SimpleList {
     private String type;
 
 
-    public SimpleList() {
+    public ListDto() {
     }
 
     public String getName() {

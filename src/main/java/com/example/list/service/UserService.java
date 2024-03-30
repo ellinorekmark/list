@@ -5,9 +5,9 @@ import com.example.list.dao.UserList;
 import com.example.list.exceptions.AccountMissingException;
 import com.example.list.exceptions.EmailExistsException;
 import com.example.list.exceptions.InvalidPasswordException;
-import com.example.list.simple.ListType;
-import com.example.list.simple.SimpleList;
-import com.example.list.simple.SimpleUser;
+import com.example.list.ListType;
+import com.example.list.dto.ListDto;
+import com.example.list.dto.UserDto;
 import com.example.list.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,12 +32,12 @@ public class UserService {
 
     User user;
 
-    public User createAccount(SimpleUser simpleUser) throws EmailExistsException {
-        if (userRepository.existsByEmail(simpleUser.getEmail())) {
+    public User createAccount(UserDto userDto) throws EmailExistsException {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new EmailExistsException();
         } else {
-            String passwordHash = passwordEncoder.encode(simpleUser.getPassword());
-            User newUser = new User(simpleUser.getEmail(), simpleUser.getUsername(), passwordHash);
+            String passwordHash = passwordEncoder.encode(userDto.getPassword());
+            User newUser = new User(userDto.getEmail(), userDto.getUsername(), passwordHash);
             this.user = userRepository.save(newUser);
             return user;
         }
@@ -70,7 +70,7 @@ public class UserService {
         return user;
     }
 
-    public UserList addList(SimpleList newList){
+    public UserList addList(ListDto newList){
         UserList list = new UserList();
         list.setUserId(user.getId());
         list.setName(newList.getName());

@@ -1,7 +1,7 @@
 package com.example.list.dao;
 
 
-import com.example.list.simple.ListType;
+import com.example.list.ListType;
 import jakarta.persistence.*;
 
 import java.util.List;
