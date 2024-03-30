@@ -1,6 +1,7 @@
 package com.example.list.dao;
 
 
+import com.example.list.simple.ListType;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,11 +16,12 @@ public class UserList {
     @Column(nullable = false)
     private Long userId;
 
-    @Column(nullable = false, columnDefinition = "varchar(255) default 'untitled'")
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "varchar(255) default 'basic'")
-    private String type;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ListType type;
 
     @OneToMany(mappedBy = "listId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ListItem> items;
@@ -51,12 +53,15 @@ public class UserList {
         this.name = name;
     }
 
-    public String getType() {
+    public ListType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ListType type) {
         this.type = type;
+    }
+    public void setType(String type){
+        this.type = ListType.valueOf(type.toUpperCase());
     }
 
     public List<ListItem> getItems() {

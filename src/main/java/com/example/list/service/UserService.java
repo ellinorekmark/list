@@ -5,6 +5,7 @@ import com.example.list.dao.UserList;
 import com.example.list.exceptions.AccountMissingException;
 import com.example.list.exceptions.EmailExistsException;
 import com.example.list.exceptions.InvalidPasswordException;
+import com.example.list.simple.ListType;
 import com.example.list.simple.SimpleList;
 import com.example.list.simple.SimpleUser;
 import com.example.list.repositories.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,11 +70,11 @@ public class UserService {
         return user;
     }
 
-    public UserList addList(SimpleList createList){
+    public UserList addList(SimpleList newList){
         UserList list = new UserList();
         list.setUserId(user.getId());
-        list.setName(createList.getName());
-        list.setType(createList.getType());
+        list.setName(newList.getName());
+        list.setType(ListType.valueOf(newList.getType().toUpperCase()));
         list = listService.save(list);
         user = updateUser();
         return list;
@@ -85,5 +87,13 @@ public class UserService {
     }
     public User getUser(){
         return user;
+    }
+
+    public List<UserList> getLists() {
+        return user.getLists();
+    }
+
+    public String getUsername() {
+        return user.getUsername();
     }
 }

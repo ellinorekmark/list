@@ -10,11 +10,11 @@
 <header th:insert="~{header :: header(user=${user})}" ></header>
 <h2>Create a list</h2>
 <p th:if="${error != null}" th:text="${error}" class="error"></p>
-<form th:action="@{/createList}" method="post" th:object="${list}">
+<form th:action="@{/createList}" method="post" th:object="${newList}">
     <span>Name: </span><input type="text" th:field="*{name}">
     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></p>
     <span>Type: </span><select th:field="*{type}">
-    <option  th:each="t : ${listTypes}" th:value="${t}" th:text="${t.toString()}"></option>
+    <option  th:each="t : ${listTypes}" th:value="${t}" th:text="${t.fancyName()}"></option>
     <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="error"></p>
 
 </select>

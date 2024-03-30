@@ -6,9 +6,15 @@ public enum ListType {
         public String toString(){
             return "Basic";
         }
+        public String fancyName(){
+            return "Basic";
+        }
     }, CHECK{
         @Override
         public String toString() {
+            return "Check";
+        }
+        public String fancyName(){
             return "Checklist";
         }
     }

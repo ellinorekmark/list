@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class WebController {
     @Autowired
@@ -86,19 +88,21 @@ public class WebController {
 
     @GetMapping("/createList")
     String list(Model m){
-        m.addAttribute("list", new SimpleList());
+        m.addAttribute("newList", new SimpleList());
         m.addAttribute("listTypes", ListType.values());
 
         return CREATE_LIST;
     }
 
     @PostMapping("/createList")
-    String createList(Model m, @Valid @ModelAttribute("list") SimpleList createList, BindingResult br){
+    String createList(Model m, @Valid @ModelAttribute("newList") SimpleList newList, BindingResult br){
         if(br.hasErrors()){
+            m.addAttribute("listTypes", ListType.values());
             return CREATE_LIST;
         }
-        UserList list = userService.addList(createList);
-        m.addAttribute("list",list);
+
+        UserList createdList = userService.addList(newList);
+        m.addAttribute("list",createdList);
 
         return VIEW_LIST;
     }
