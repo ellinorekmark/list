@@ -1,5 +1,6 @@
 package com.example.list.dao;
 import com.example.list.ListType;
+import com.example.list.dto.ItemDto;
 import jakarta.persistence.*;
 
 
@@ -21,6 +22,17 @@ public class ListItem {
 
     @Column
     private String text;
+
+    public ListItem(ItemDto item) {
+        this.type = item.getType();
+        this.text = item.getText();
+        this.status = item.getStatus();
+        this.listId = item.getListId();
+    }
+
+    public ListItem() {
+
+    }
 
     public Long getId() {
         return id;

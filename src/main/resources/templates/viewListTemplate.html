@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Lists</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header th:insert="header :: header(user=${user})" ></header>
+<header th:insert="~{header :: header(user=${user})}"></header>
+<div>
 <h2 th:text="${list.getName()}"></h2>
 <h3 th:text="${list.getType()}"></h3>
+<div th:each="i: ${list.getItems()}">
+    <p th:text="${i.getText()}"></p>
+</div>
 
+<form th:action="@{'/list/' + ${list.id}}" method="post" th:object="${newItem}">
+    <input type="hidden" th:field="*{listId}" th:value="${list.id}">
+    <input type="text" th:field="*{text}">
+    <input type="submit" value="Add To List">
+</form>
+</div>
 </body>
 </html>

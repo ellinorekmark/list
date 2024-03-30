@@ -1,13 +1,17 @@
 package com.example.list.service;
 
+import com.example.list.dao.ListItem;
 import com.example.list.dao.User;
 import com.example.list.dao.UserList;
+import com.example.list.dto.ItemDto;
 import com.example.list.exceptions.AccountMissingException;
 import com.example.list.exceptions.EmailExistsException;
 import com.example.list.exceptions.InvalidPasswordException;
 import com.example.list.ListType;
 import com.example.list.dto.ListDto;
 import com.example.list.dto.UserDto;
+import com.example.list.repositories.ListItemRepository;
+import com.example.list.repositories.UserListRepository;
 import com.example.list.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +30,9 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    ListService listService;
+    UserListRepository listRepository;
+    @Autowired
+    ListItemRepository itemRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -99,8 +105,10 @@ public class UserService {
         list.setUserId(user.getId());
         list.setName(newList.getName());
         list.setType(ListType.valueOf(newList.getType().toUpperCase()));
-        list = listService.save(list);
+        list = listRepository.save(list);
         user = updateUser();
+        logger.log(Level.INFO, "AWESDGWFESEDES LIST HAS ID: "+list.getId());
+
         return list;
 
     }
@@ -119,5 +127,26 @@ public class UserService {
 
     public String getUsername() {
         return user.getUsername();
+    }
+
+    public Object getEmail() {
+        return user.getEmail();
+    }
+
+    public UserList addToList(UserList list, ItemDto item) {
+        logger.log(Level.INFO,"item has listId: "+item.getListId());
+        ListItem listItem = (new ListItem(item));
+        logger.log(Level.INFO,"listItem has listId: "+listItem.getListId());
+
+
+        itemRepository.save(listItem);
+
+        list = listRepository.getUserListById(list.getId());
+        user = updateUser();
+        return list;
+    }
+
+    public UserList getList(Long id) {
+        return listRepository.getUserListById(id);
     }
 }

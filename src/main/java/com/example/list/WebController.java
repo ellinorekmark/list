@@ -10,13 +10,18 @@ import com.example.list.dto.ListDto;
 import com.example.list.dto.UserDto;
 import com.example.list.service.*;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
 public class WebController {
@@ -24,6 +29,9 @@ public class WebController {
     UserService userService;
     @Autowired
     ListService listService;
+
+    private static final Logger logger = Logger.getLogger( WebController.class.getName() );
+
 
     private final static String HOME = "startPageTemplate";
     private final static String LOGIN = "loginTemplate";
@@ -37,13 +45,24 @@ public class WebController {
     @GetMapping("/")
     String homepage(Model m)  {
         if(userService.isLoggedIn()){
-            m.addAttribute("user", userService.getUser());
+            addUserDetails(m);
         }
         return HOME;
     }
 
+    private void addUserDetails(Model m) {
+        m.addAttribute("loggedIn", userService.isLoggedIn());
+        m.addAttribute("username", userService.getUsername());
+        m.addAttribute("email", userService.getEmail());
+        m.addAttribute("lists", userService.getLists());
+    }
+
     @GetMapping("/login")
     String login(Model m){
+        if(userService.isLoggedIn()){
+            addUserDetails(m);
+            return HOME;
+        }
         m.addAttribute("userLogin", new UserDto());
         return LOGIN;
     }
@@ -51,7 +70,7 @@ public class WebController {
     String loginUser(Model m, UserDto userLogin){
         try{
             User user  = userService.login(userLogin.getEmail(), userLogin.getPassword());
-            m.addAttribute("user",user);
+            addUserDetails(m);
             return HOME;
         } catch (AccountMissingException e) {
             m.addAttribute("error","No account associated with email.");
@@ -63,6 +82,10 @@ public class WebController {
     }
     @GetMapping("/createAccount")
     String createAccountPage(Model m){
+        if(userService.isLoggedIn()){
+            addUserDetails(m);
+            return HOME;
+        }
         m.addAttribute("newUser", new UserDto());
         return CREATE_USER;
     }
@@ -83,30 +106,67 @@ public class WebController {
         }
     }
 
-    @GetMapping("/createList")
+    @GetMapping("/list")
     String list(Model m){
+        if(!userService.isLoggedIn()){
+           return HOME;
+        }
+        addUserDetails(m);
         m.addAttribute("newList", new ListDto());
         m.addAttribute("listTypes", ListType.values());
 
         return CREATE_LIST;
     }
 
-    @PostMapping("/createList")
+    @PostMapping("/list")
     String createList(Model m, @Valid @ModelAttribute("newList") ListDto newList, BindingResult br){
+        if(!userService.isLoggedIn()){
+            return HOME;
+        }
+        addUserDetails(m);
         if(br.hasErrors()){
             m.addAttribute("listTypes", ListType.values());
             return CREATE_LIST;
         }
 
         UserList createdList = userService.addList(newList);
+        logger.log(Level.INFO,"createdList has id: "+createdList.getId());
         editListAttributes(m, createdList);
 
         return VIEW_LIST;
     }
 
+    @PostMapping("/list/{id}")
+    String addToList(Model m,@PathVariable Long id, @Valid @ModelAttribute("newItem") ItemDto item, @ModelAttribute("list")UserList list, BindingResult br){
+        logger.log(Level.INFO,"modelAttribute list haas id "+list.getId());
+        logger.log(Level.INFO,"modelAttribute item haas id "+item.getListId());
+
+        if(!userService.isLoggedIn()){
+            return HOME;
+        }
+        addUserDetails(m);
+        if(br.hasErrors()){
+            return VIEW_LIST;
+        }
+        list = userService.addToList(list, item);
+        editListAttributes(m, list);
+
+        return VIEW_LIST;
+    }
+
+    @GetMapping("/list/{id}")
+    String getViewList(Model m, @PathVariable Long id){
+        if(!userService.isLoggedIn()){
+            return HOME;
+        }
+        addUserDetails(m);
+        editListAttributes(m, userService.getList(id));
+        return VIEW_LIST;
+    }
+
     private void editListAttributes(Model m, UserList list) {
         m.addAttribute("list", list);
-        m.addAttribute("newItem", new ItemDto(list.getType()));
+        m.addAttribute("newItem", new ItemDto(list.getId()));
     }
 
 }

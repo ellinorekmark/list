@@ -16,17 +16,16 @@
 </header>
 <nav id="menu" class="closed">
     <div>
-        <div th:if="${user != null}">
+        <div th:if="${loggedIn}">
             <h3>Account</h3>
-            <p><a href="/account">My Account</a></p>
             <p><a href="/logout">Logout</a></p>
             <h3>Lists</h3>
-            <a href="/createList"><p>+ New List</p></a>
-            <div th:each="list: ${user.getLists()}">
-                <p th:text=" ${list.getName()}"></p>
+            <a href="/list"><p>+ New List</p></a>
+            <div th:each="l: ${lists}">
+                <a th:href="@{'/list/' + ${l.getId()}}"><p th:text=" ${l.getName()}"></p></a>
             </div>
         </div>
-        <div th:unless="${user != null}">
+        <div th:unless="${loggedIn}">
             <p><a href="/login">Login</a></p>
             <p><a href="/createAccount">Create account</a></p>
 
