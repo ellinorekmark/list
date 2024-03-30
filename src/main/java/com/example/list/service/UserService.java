@@ -44,8 +44,32 @@ public class UserService {
 
     }
 
-    public User login(String email, String password) throws InvalidPasswordException, AccountMissingException {
+    public User login(String emailOrUsername, String password) throws InvalidPasswordException, AccountMissingException {
+        if(emailOrUsername.contains("@")){
+            return loginByEmail(emailOrUsername,password);
+        }
+        else{
+             return loginByUsername(emailOrUsername,password);
+        }
+    }
 
+    private User loginByUsername(String username, String password) throws AccountMissingException, InvalidPasswordException {
+        String hash = userRepository.findPasswordByUsername(username);
+        if(hash == null){
+            logger.log(Level.INFO, "Username not found");
+            throw new AccountMissingException();
+        }
+        if (passwordEncoder.matches(password, hash)) {
+            this.user = userRepository.findUserByUsername(username);
+            logger.log(Level.INFO,"Logged in user");
+            return user;
+        } else {
+            logger.log(Level.INFO,"Invalid password");
+            throw new InvalidPasswordException();
+        }
+    }
+
+    private User loginByEmail(String email, String password) throws AccountMissingException, InvalidPasswordException {
         String hash = userRepository.findPasswordByEmail(email);
         if(hash == null){
             logger.log(Level.INFO, "Email not found");

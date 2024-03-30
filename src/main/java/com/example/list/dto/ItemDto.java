@@ -5,8 +5,7 @@ import com.example.list.ListType;
 public class ItemDto {
     String text;
     ListType type;
-
-    String tag;
+    String status;
 
     public ItemDto(ListType type) {
 

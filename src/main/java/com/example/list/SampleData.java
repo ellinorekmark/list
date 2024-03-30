@@ -1,7 +1,6 @@
 package com.example.list;
 
 import com.example.list.dao.User;
-import com.example.list.repositories.ItemTagRepository;
 import com.example.list.repositories.ListItemRepository;
 import com.example.list.repositories.UserListRepository;
 import com.example.list.repositories.UserRepository;
@@ -18,8 +17,6 @@ public class SampleData implements CommandLineRunner {
     UserListRepository listRepository;
     @Autowired
     ListItemRepository listItemRepository;
-    @Autowired
-    ItemTagRepository itemTagRepository;
 
     User user = new User();
 

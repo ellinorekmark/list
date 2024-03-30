@@ -1,5 +1,7 @@
 package com.example.list;
 
+import java.util.List;
+
 public enum ListType {
     BASIC{
         @Override
@@ -9,6 +11,9 @@ public enum ListType {
         public String description(){
             return "Basic";
         }
+        public List<String> options(){
+            return List.of();
+        }
     }, CHECK{
         @Override
         public String toString() {
@@ -17,5 +22,24 @@ public enum ListType {
         public String description(){
             return "Checklist";
         }
-    }
+    },
+    COLOR{
+        @Override
+        public String toString() {
+            return "Color";
+        }
+        public String description(){
+            return "Color coded";
+        }
+    },
+    RANK{
+        @Override
+        public String toString() {
+            return "Rank";
+        }
+        public String description(){
+            return "Ranked";
+        }
+    },
+
 }

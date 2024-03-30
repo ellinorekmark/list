@@ -1,10 +1,7 @@
 package com.example.list.dao;
+import com.example.list.ListType;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "list_items")
@@ -15,20 +12,15 @@ public class ListItem {
     @Column(nullable = false)
     private Long listId;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ListType type;
+
+    @Column
+    private String status;
+
     @Column
     private String text;
-
-
-    @OneToMany(mappedBy = "listItemId", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<ItemTag> itemTags;
-
-    @Transient
-    private Map<String,Integer> tags;
-
-    public ListItem() {
-        itemTags = new ArrayList<>();
-        tags = new HashMap<>();
-    }
 
     public Long getId() {
         return id;
@@ -46,23 +38,6 @@ public class ListItem {
         this.text = text;
     }
 
-    public List<ItemTag> getItemTags() {
-        return itemTags;
-    }
-
-    public void setItemTags(List<ItemTag> itemTags) {
-        this.itemTags = itemTags;
-        tags.clear();
-        for (ItemTag itemTag : itemTags) {
-            tags.put(itemTag.getTag(), itemTag.getValue());
-        }
-    }
-
-
-    public Map<String, Integer> getTags() {
-        return tags;
-    }
-
     public Long getListId() {
         return listId;
     }
@@ -71,19 +46,20 @@ public class ListItem {
         this.listId = listId;
     }
 
-    public void setTags(Map<String, Integer> tags) {
-        this.tags = tags;
+    public ListType getType() {
+        return type;
     }
-    public void addTag(ItemTag tag){
-        tags.put(tag.getTag(),tag.getValue());
-        itemTags.add(tag);
+
+    public void setType(ListType type) {
+        this.type = type;
     }
-    public void removeTag(String tag){
-        for (ItemTag itemTag : itemTags){
-            if(itemTag.getTag().equals(tag)){
-                itemTags.remove(itemTag);
-            }
-        }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
 
