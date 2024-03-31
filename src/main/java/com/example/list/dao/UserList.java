@@ -19,6 +19,9 @@ public class UserList {
     @Column(nullable = false)
     private String name;
 
+    @Column
+    private String description;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ListType type;
@@ -73,5 +76,13 @@ public class UserList {
     }
     public void addItem(ListItem item){
         items.add(item);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

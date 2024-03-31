@@ -14,7 +14,8 @@ public enum ListType {
         public List<String> options(){
             return List.of();
         }
-    }, CHECK{
+    },
+    CHECK{
         @Override
         public String toString() {
             return "Check";
@@ -32,6 +33,15 @@ public enum ListType {
             return "Color coded";
         }
     },
+    LINK{
+        @Override
+        public String toString() {
+            return "Link";
+        }
+        public String description(){
+            return "Linked";
+        }
+    },
     RANK{
         @Override
         public String toString() {
@@ -40,6 +50,6 @@ public enum ListType {
         public String description(){
             return "Ranked";
         }
-    },
+    }
 
 }

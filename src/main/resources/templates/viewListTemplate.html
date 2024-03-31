@@ -11,7 +11,9 @@
 <h2 th:text="${list.getName()}"></h2>
 <h3 th:text="${list.getType()}"></h3>
 <div th:each="i: ${list.getItems()}">
-    <p th:text="${i.getText()}"></p>
+    <span th:text="${i.getText()}"></span>
+    <span th:if="${list.getType().toString() == 'Check'}"><input type="checkbox"></span><br />
+    <span th:if="${list.getType() == 'Color'}">C</span><br />
 </div>
 
 <form th:action="@{'/list/' + ${list.id}}" method="post" th:object="${newItem}">
