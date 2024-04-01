@@ -1,34 +1,25 @@
 package com.example.list;
 
-import com.example.list.dao.User;
-import com.example.list.dao.UserList;
-import com.example.list.exceptions.AccountMissingException;
-import com.example.list.exceptions.EmailExistsException;
-import com.example.list.exceptions.InvalidPasswordException;
-import com.example.list.dto.ItemDto;
-import com.example.list.dto.ListDto;
-import com.example.list.dto.UserDto;
-import com.example.list.service.*;
-import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Controller
 public class WebController {
+    @GetMapping()
+    String homepage(Model m)  {
+
+        return "testPage";
+    }
+
+    @GetMapping("/login")
+    String login(Model m){
+        return "login";
+    }
+
+    /*
     @Autowired
     UserService userService;
-    @Autowired
-    ListService listService;
 
     private static final Logger logger = Logger.getLogger( WebController.class.getName() );
 
@@ -69,7 +60,7 @@ public class WebController {
     @PostMapping("/login")
     String loginUser(Model m, UserDto userLogin){
         try{
-            User user  = userService.login(userLogin.getEmail(), userLogin.getPassword());
+            ListyUser user  = userService.login(userLogin.getEmail(), userLogin.getPassword());
             addUserDetails(m);
             return HOME;
         } catch (AccountMissingException e) {
@@ -96,7 +87,7 @@ public class WebController {
             return CREATE_USER;
         }
         try {
-            User user  = userService.createAccount(newUser);
+            ListyUser user  = userService.createAccount(newUser);
             m.addAttribute("user", user);
             return HOME;
         } catch (EmailExistsException e) {
@@ -168,5 +159,5 @@ public class WebController {
         m.addAttribute("list", list);
         m.addAttribute("newItem", new ItemDto(list.getId()));
     }
-
+*/
 }

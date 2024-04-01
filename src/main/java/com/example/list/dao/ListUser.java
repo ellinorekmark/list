@@ -1,5 +1,6 @@
 package com.example.list.dao;
 
+import com.example.list.dto.UserDto;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class ListUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,14 +26,20 @@ public class User {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserList> userLists;
 
-    public User() {
+    public ListUser() {
         userLists = new ArrayList<>();
     }
 
-    public User(String email, String username, String passwordHash) {
+    public ListUser(String email, String username, String passwordHash) {
         this.email = email;
         this.username = username;
         this.password = passwordHash;
+    }
+
+    public ListUser(UserDto user) {
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.username = user.getUsername();
     }
 
     public Long getId() {
@@ -78,4 +85,7 @@ public class User {
         userLists.add(list);
     }
 
+    public String getRole() {
+        return "USER";
+    }
 }
