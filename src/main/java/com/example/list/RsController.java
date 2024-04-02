@@ -2,13 +2,17 @@
 package com.example.list;
 
 
+import com.example.list.dto.ListDto;
 import com.example.list.dto.UserDto;
 import com.example.list.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,12 +24,11 @@ public class RsController {
     @Autowired
     UserService userService;
 
-
-
-
-    @GetMapping("/user/{username}")
-    ResponseEntity<UserDto> getUser(@PathVariable String username){
-        return ResponseEntity.ok().body(new UserDto());
+    @GetMapping("/user/")
+    ResponseEntity<UserDto> getUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userAuth = authentication.getName();
+        return ResponseEntity.ok().body(new UserDto(userAuth,"user@email.com","pass"));
     }
 
     @PostMapping("/user")
@@ -34,10 +37,16 @@ public class RsController {
         return ResponseEntity.ok().body(user);
     }
 
-    @DeleteMapping("/user/{username}")
-    ResponseEntity removeUser(@PathVariable String username){
-        userService.delete(username);
-        return ResponseEntity.ok().build();
+    @GetMapping("/lists/")
+    ResponseEntity<List<ListDto>>getLists(){
+        userService.getLists();
+        return ResponseEntity.ok().body(null);
+    }
+
+    @GetMapping("/list/{id}")
+    ResponseEntity<ListDto>getList(@PathVariable Long id){
+
+        return ResponseEntity.ok().body(null);
     }
 
 
