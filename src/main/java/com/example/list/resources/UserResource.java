@@ -1,5 +1,5 @@
 
-package com.example.list;
+package com.example.list.resources;
 
 
 import com.example.list.dto.ListDto;
@@ -17,29 +17,30 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/api")
-public class RsController {
-    private static final Logger logger = Logger.getLogger(RsController.class.getName());
+@RequestMapping("/api/user")
+public class UserResource {
+    private static final Logger logger = Logger.getLogger(UserResource.class.getName());
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/user/")
+    @GetMapping()
     ResponseEntity<UserDto> getUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userAuth = authentication.getName();
+/*        logger.log(Level.INFO,"Credentials! "+authentication.getCredentials().toString() );
+        logger.log(Level.INFO,"Details!! "+authentication.getDetails().toString() );*/
         return ResponseEntity.ok().body(new UserDto(userAuth,"user@email.com","pass"));
     }
 
-    @PostMapping("/user")
+    @PostMapping()
     ResponseEntity<UserDto> addUser(@RequestBody UserDto user){
 
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping("/lists/")
+    @GetMapping("/requests/")
     ResponseEntity<List<ListDto>>getLists(){
-        userService.getLists();
         return ResponseEntity.ok().body(null);
     }
 

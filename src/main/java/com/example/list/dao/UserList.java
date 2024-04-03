@@ -13,8 +13,7 @@ public class UserList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
+
 
     @Column(nullable = false)
     private String name;
@@ -40,13 +39,7 @@ public class UserList {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     public String getName() {
         return name;

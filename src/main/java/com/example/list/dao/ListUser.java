@@ -23,13 +23,6 @@ public class ListUser {
     @Column(nullable = false)
     private String username;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<UserList> userLists;
-
-    public ListUser() {
-        userLists = new ArrayList<>();
-    }
-
     public ListUser(String email, String username, String passwordHash) {
         this.email = email;
         this.username = username;
@@ -40,6 +33,10 @@ public class ListUser {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.username = user.getUsername();
+    }
+
+    public ListUser() {
+
     }
 
     public Long getId() {
@@ -72,17 +69,6 @@ public class ListUser {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public List<UserList> getLists() {
-        return userLists;
-    }
-
-    public void setUserLists(List<UserList> userLists) {
-        this.userLists = userLists;
-    }
-    public void addList(UserList list){
-        userLists.add(list);
     }
 
     public String getRole() {

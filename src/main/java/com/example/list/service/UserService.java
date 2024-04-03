@@ -45,13 +45,11 @@ public class UserService {
 
     public UserList addList(ListDto newList){
         UserList list = new UserList();
-        list.setUserId(user.getId());
+
         list.setName(newList.getName());
         list.setType(ListType.valueOf(newList.getType().toUpperCase()));
         list = listRepository.save(list);
         user = updateUser();
-        logger.log(Level.INFO, "AWESDGWFESEDES LIST HAS ID: "+list.getId());
-
         return list;
 
     }
@@ -64,9 +62,6 @@ public class UserService {
         return user;
     }
 
-    public List<UserList> getLists() {
-        return user.getLists();
-    }
 
     public String getUsername() {
         return user.getUsername();

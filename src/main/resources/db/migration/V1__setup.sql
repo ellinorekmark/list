@@ -6,14 +6,39 @@ CREATE TABLE users
     username VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE user_roles
+(
+    user_id INT NOT NULL,
+    account_role VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE user_lists
 (
     id          INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id     INT NOT NULL,
     name        VARCHAR(255),
     type        VARCHAR(255),
     description VARCHAR(255),
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    public TINYINT DEFAULT 0
+);
+
+CREATE TABLE list_users
+(
+    list_id INT NOT NULL,
+    user_id INT NOT NULL,
+    list_role VARCHAR(255) NOT NULL,
+    PRIMARY KEY(list_id,user_id),
+    FOREIGN KEY (list_id) REFERENCES user_lists(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE friends
+(
+  userA_id INT NOT NULL,
+  userB_id INT NOT NULL,
+  status VARCHAR(255) DEFAULT 'pending',
+  PRIMARY KEY(userA_id,userB_id),
+  FOREIGN KEY (userA_id) REFERENCES users(id),
+  FOREIGN KEY (userB_id) REFERENCES users(id)
 );
 
 CREATE TABLE list_items

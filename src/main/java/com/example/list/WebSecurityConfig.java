@@ -35,12 +35,10 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/*").permitAll();
-                    auth.requestMatchers("/api/*").hasRole("USER");
-                    auth.anyRequest().authenticated();
+                    auth.requestMatchers("/api/**").hasRole("USER");
+                    auth.requestMatchers("/**").permitAll();
                 })
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(withDefaults())
                 .httpBasic(withDefaults())
                 .build();
     }
