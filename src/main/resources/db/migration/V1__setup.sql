@@ -5,8 +5,8 @@ CREATE TABLE users
     username VARCHAR(255) NOT NULL,
     birthday DATE NOT NULL,
     pw_hash VARCHAR(255) NOT NULL,
-    member_since DATETIME DEFAULT NOW(),
-    anonymous_data_allowed TINYINT DEFAULT 0,
+    member_since DATETIME,
+    anonymous_data_allowed TINYINT NOT NULL DEFAULT 0,
     active_account TINYINT DEFAULT 1
 
 );

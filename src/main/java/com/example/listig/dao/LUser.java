@@ -27,7 +27,7 @@ public class LUser {
     @Column(nullable = false)
     private String pwHash;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime memberSince;
 
     @Column(nullable = false)
@@ -36,11 +36,11 @@ public class LUser {
     @Column
     private boolean activeAccount;
 
-    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<UserRoles> roles;
+    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
+    private List<UserRole> roles;
 
     @ElementCollection
-    @CollectionTable(name = "user_lists", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "user_lists", joinColumns = @JoinColumn(name = "user_id" ))
     @Column(name = "list_id")
     private List<Long> listIds;
 
@@ -55,7 +55,7 @@ public class LUser {
     }
 
 
-    public LUser(Long id, String email, String username, LocalDate birthday, String pwHash, boolean anonymousData, List<UserRoles> roles) {
+    public LUser(Long id, String email, String username, LocalDate birthday, String pwHash, boolean anonymousData, List<UserRole> roles) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -129,11 +129,11 @@ public class LUser {
         this.activeAccount = activeAccount;
     }
 
-    public List<UserRoles> getRoles() {
+    public List<UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<UserRoles> roles) {
+    public void setRoles(List<UserRole> roles) {
         this.roles = roles;
     }
 

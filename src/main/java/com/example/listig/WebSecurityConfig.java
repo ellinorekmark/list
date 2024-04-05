@@ -27,6 +27,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
                 .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/api/user/newAccount").permitAll();
                     auth.requestMatchers("/api/**").authenticated();
                     auth.requestMatchers("/**").permitAll();
                 })

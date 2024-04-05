@@ -2,6 +2,9 @@ package com.example.listig.repositories;
 
 import com.example.listig.dao.LUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<LUser, Long> {
 
@@ -14,4 +17,6 @@ public interface UserRepository extends JpaRepository<LUser, Long> {
     LUser findByUsername(String username);
 
     LUser getUserByUsername(String username);
+
+
 }

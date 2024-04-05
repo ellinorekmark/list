@@ -2,8 +2,12 @@
 package com.example.listig.resources;
 
 
+import com.example.listig.dto.CreateUserDto;
 import com.example.listig.dto.ListDto;
 import com.example.listig.dto.UserDto;
+import com.example.listig.exceptions.ErrorResponce;
+import com.example.listig.exceptions.InvalidPasswordException;
+import com.example.listig.exceptions.UserCreationException;
 import com.example.listig.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +31,19 @@ public class UserResource {
     ResponseEntity<UserDto> getUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userAuth = authentication.getName();
-        return ResponseEntity.ok().body(new UserDto());
+        UserDto user = userService.getUser(userAuth);
+        return ResponseEntity.ok().body(user);
     }
 
-    @PostMapping()
-    ResponseEntity<UserDto> addUser(@RequestBody UserDto user){
+    @PostMapping("/newAccount")
+    ResponseEntity<Object> addUser(@RequestBody CreateUserDto user){
+        try {
+            UserDto createdUser = userService.createUser(user);
+            return ResponseEntity.ok().body(createdUser);
+        } catch (InvalidPasswordException | UserCreationException e) {
+            return ResponseEntity.badRequest().body(new ErrorResponce("error", e.getMessage()));
+        }
 
-        return ResponseEntity.ok().body(user);
     }
 
     @GetMapping("/requests/")

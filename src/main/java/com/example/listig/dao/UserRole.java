@@ -5,19 +5,22 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_roles")
-public class UserRoles {
+public class UserRole {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
 
     @Column
     private String accountRole;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private LUser user;
 
-    public UserRoles() {
+    public UserRole() {
+    }
+
+    public UserRole(Long id, String accountRole) {
+        this.userId = id;
+        this.accountRole = accountRole;
     }
 
 
@@ -45,11 +48,4 @@ public class UserRoles {
         this.accountRole = accountRole;
     }
 
-    public LUser getUser() {
-        return user;
-    }
-
-    public void setUser(LUser user) {
-        this.user = user;
-    }
 }
