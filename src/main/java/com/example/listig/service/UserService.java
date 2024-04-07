@@ -28,6 +28,16 @@ public class UserService {
     @Autowired
     PasswordEncoder encoder;
 
+
+    public UserService() {
+    }
+
+    public UserService(UserRepository userRepository, UserRoleRepository roleRepository, PasswordEncoder encoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.encoder = encoder;
+    }
+
     public Long findUserIdByUsername(String username){
         return userRepository.getUserByUsername(username).getId();
     }
