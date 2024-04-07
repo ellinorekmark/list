@@ -22,16 +22,10 @@ public class LUser {
     private String username;
 
     @Column(nullable = false)
-    private LocalDate birthday;
-
-    @Column(nullable = false)
     private String pwHash;
 
     @Column
     private LocalDateTime memberSince;
-
-    @Column(nullable = false)
-    private boolean anonymousDataAllowed;
 
     @Column
     private boolean activeAccount;
@@ -50,18 +44,14 @@ public class LUser {
     public LUser(UserDto dto) {
     this.username = dto.getUsername();
     this.email = dto.getEmail();
-    this.birthday = dto.getBirthday();
-    this.anonymousDataAllowed = dto.isAnonymous_data_allowed();
     }
 
 
-    public LUser(Long id, String email, String username, LocalDate birthday, String pwHash, boolean anonymousData, List<UserRole> roles) {
+    public LUser(Long id, String email, String username, String pwHash, List<UserRole> roles) {
         this.id = id;
         this.email = email;
         this.username = username;
-        this.birthday = birthday;
         this.pwHash = pwHash;
-        this.anonymousDataAllowed = anonymousData;
         this.roles = roles;
     }
 
@@ -89,13 +79,6 @@ public class LUser {
         this.username = username;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
 
     public String getPwHash() {
         return pwHash;
@@ -113,13 +96,7 @@ public class LUser {
         this.memberSince = memberSince;
     }
 
-    public boolean isAnonymousDataAllowed() {
-        return anonymousDataAllowed;
-    }
 
-    public void setAnonymousDataAllowed(boolean anonymousData) {
-        this.anonymousDataAllowed = anonymousData;
-    }
 
     public boolean isActiveAccount() {
         return activeAccount;

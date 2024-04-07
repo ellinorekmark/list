@@ -3,11 +3,9 @@ CREATE TABLE users
     id       INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     email    VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
-    birthday DATE NOT NULL,
     pw_hash VARCHAR(255) NOT NULL,
     member_since DATETIME,
-    anonymous_data_allowed TINYINT NOT NULL DEFAULT 0,
-    active_account TINYINT DEFAULT 1
+    active_account TINYINT NOT NULL DEFAULT 1
 
 );
 
