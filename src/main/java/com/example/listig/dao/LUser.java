@@ -27,9 +27,6 @@ public class LUser {
     @Column
     private LocalDateTime memberSince;
 
-    @Column
-    private boolean activeAccount;
-
     @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
     private List<UserRole> roles;
 
@@ -94,16 +91,6 @@ public class LUser {
 
     public void setMemberSince(LocalDateTime memberSince) {
         this.memberSince = memberSince;
-    }
-
-
-
-    public boolean isActiveAccount() {
-        return activeAccount;
-    }
-
-    public void setActiveAccount(boolean activeAccount) {
-        this.activeAccount = activeAccount;
     }
 
     public List<UserRole> getRoles() {

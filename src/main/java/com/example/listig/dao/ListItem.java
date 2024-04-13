@@ -1,6 +1,5 @@
 package com.example.listig.dao;
 import com.example.listig.ListType;
-import com.example.listig.dto.ItemDto;
 import jakarta.persistence.*;
 
 
@@ -26,6 +25,7 @@ public class ListItem {
     public ListItem() {
 
     }
+
 
 
 

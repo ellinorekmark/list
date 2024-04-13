@@ -33,19 +33,10 @@ public class UserList {
     @Column
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "listId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ListItem> items;
 
 
 
     public UserList() {
-    }
-    public UserList(ListDto list) {
-        this.id = list.getId();
-        this.listName = list.getName();
-        this.type = ListType.valueOf(list.getType());
-        this.listDesc = list.getDescription();
-        this.isPublic = list.isPublic();
     }
 
     public Long getId() {
@@ -95,14 +86,5 @@ public class UserList {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-
-    public List<ListItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ListItem> items) {
-        this.items = items;
-    }
-
 
 }
