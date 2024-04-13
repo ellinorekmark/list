@@ -4,9 +4,7 @@ CREATE TABLE users
     email    VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
     pw_hash VARCHAR(255) NOT NULL,
-    member_since DATETIME,
-    active_account TINYINT NOT NULL DEFAULT 1
-
+    member_since DATETIME
 );
 
 CREATE TABLE user_roles
