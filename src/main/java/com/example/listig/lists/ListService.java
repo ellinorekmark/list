@@ -83,4 +83,18 @@ public class ListService {
             return populateListDto(list);
         }
     }
+
+    @Transactional
+    public void deleteList(String username, Long listId) throws Exception {
+        Long userId = userService.findUserIdByUsername(username);
+        UserList userList = repository.getUserListById(listId);
+        if(repository.userOwnsList(userId, listId) == null){
+            throw new Exception("User does not own list");
+        }
+        else{
+            itemRepository.deleteAll(itemRepository.getItemsByListId(listId));
+            repository.deleteListsAndUsers(listId);
+            repository.delete(userList);
+        }
+    }
 }

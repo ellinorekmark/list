@@ -25,4 +25,8 @@ public interface UserListRepository extends JpaRepository<UserList, Long> {
     @Query(value = "SELECT list_id FROM user_lists l JOIN list_users lu ON l.id = lu.list_id WHERE lu.user_id = :userId AND lu.list_id = :listId AND lu.list_role = 'Owner'", nativeQuery = true)
     Long userOwnsList(@Param("userId") Long userId, @Param("listId") Long listId);
 
+    @Modifying
+    @Query(value = "DELETE FROM list_users WHERE list_id = :listId", nativeQuery = true)
+    void deleteListsAndUsers(@Param("listId") Long listId);
+
 }

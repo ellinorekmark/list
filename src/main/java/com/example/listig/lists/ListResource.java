@@ -51,4 +51,17 @@ public class ListResource {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @DeleteMapping()
+    ResponseEntity<String> deleteList(@RequestBody Long list){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        try{
+            listService.deleteList(username, list);
+            return ResponseEntity.ok().build();
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
