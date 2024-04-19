@@ -1,5 +1,6 @@
 package com.example.listig.lists;
 
+import com.example.listig.AuthUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +19,15 @@ public class ListResource {
 
     @GetMapping()
     ResponseEntity<List<ListDto>> getAllUserLists(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        List<ListDto> lists = listService.getAllListsFromUser(username);
+        List<ListDto> lists = listService.getAllListsFromUser(AuthUtil.getUserName());
 
         return ResponseEntity.ok(lists);
     }
     @GetMapping("/{id}")
     ResponseEntity<ListDto> getSpecificListFromUser(@PathVariable("id") Long id){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        ListDto list = null;
+        ListDto list;
         try {
-            list = listService.getListFromUser(id, username);
+            list = listService.getListFromUser(id, AuthUtil.getUserName());
             return ResponseEntity.ok(list);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -40,10 +37,8 @@ public class ListResource {
 
     @PostMapping()
     ResponseEntity<ListDto> createOrUpdateList(@RequestBody @Valid ListDto list){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
         try{
-            list = listService.createOrUpdateList(username, list);
+            list = listService.createOrUpdateList(AuthUtil.getUserName(), list);
             return ResponseEntity.ok(list);
         }
         catch(Exception e){
@@ -54,10 +49,8 @@ public class ListResource {
 
     @DeleteMapping()
     ResponseEntity<String> deleteList(@RequestBody Long list){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
         try{
-            listService.deleteList(username, list);
+            listService.deleteList(AuthUtil.getUserName(), list);
             return ResponseEntity.ok().build();
         }
         catch(Exception e){

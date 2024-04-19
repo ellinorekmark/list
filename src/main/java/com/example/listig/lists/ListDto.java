@@ -14,7 +14,6 @@ public class ListDto {
     public ListDto() {
     }
 
-
     public List<String> getOwners() {
         return owners;
     }
