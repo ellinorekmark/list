@@ -1,11 +1,9 @@
-package com.example.listig.dto;
+package com.example.listig.user;
 
-import com.example.listig.dao.LUser;
+import com.example.listig.user.entities.LUser;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class UserDto {

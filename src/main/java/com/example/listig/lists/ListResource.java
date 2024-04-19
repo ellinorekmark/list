@@ -1,7 +1,5 @@
-package com.example.listig.resources;
+package com.example.listig.lists;
 
-import com.example.listig.dto.ListDto;
-import com.example.listig.service.ListService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

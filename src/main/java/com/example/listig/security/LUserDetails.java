@@ -1,10 +1,9 @@
-package com.example.listig;
+package com.example.listig.security;
 
 
 import java.util.Collection;
 
-import com.example.listig.dao.LUser;
-import org.springframework.security.core.GrantedAuthority;
+import com.example.listig.user.entities.LUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

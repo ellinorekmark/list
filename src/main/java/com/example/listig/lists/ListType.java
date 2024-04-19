@@ -1,4 +1,4 @@
-package com.example.listig;
+package com.example.listig.lists;
 
 import java.util.List;
 

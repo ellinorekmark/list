@@ -1,4 +1,4 @@
-package com.example.listig;
+package com.example.listig.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +27,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
                 .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/api/user/newAccount").permitAll();
                     auth.requestMatchers("/api/**").authenticated();
                     auth.requestMatchers("/**").permitAll();

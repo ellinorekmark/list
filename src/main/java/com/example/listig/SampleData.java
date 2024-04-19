@@ -1,9 +1,9 @@
 package com.example.listig;
 
-import com.example.listig.dao.LUser;
-import com.example.listig.repositories.ListItemRepository;
-import com.example.listig.repositories.UserListRepository;
-import com.example.listig.repositories.UserRepository;
+import com.example.listig.user.entities.LUser;
+import com.example.listig.lists.repositories.ListItemRepository;
+import com.example.listig.lists.repositories.UserListRepository;
+import com.example.listig.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

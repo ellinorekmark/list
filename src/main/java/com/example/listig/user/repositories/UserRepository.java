@@ -1,10 +1,7 @@
-package com.example.listig.repositories;
+package com.example.listig.user.repositories;
 
-import com.example.listig.dao.LUser;
+import com.example.listig.user.entities.LUser;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<LUser, Long> {
 

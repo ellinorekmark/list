@@ -1,5 +1,5 @@
-package com.example.listig.dao;
-import com.example.listig.ListType;
+package com.example.listig.lists.entities;
+import com.example.listig.lists.ListType;
 import jakarta.persistence.*;
 
 

@@ -1,12 +1,8 @@
-package com.example.listig.dto;
+package com.example.listig.lists;
 
-import com.example.listig.ListType;
-import com.example.listig.dao.ListItem;
-import com.example.listig.dao.UserList;
-import jakarta.validation.constraints.NotBlank;
+import com.example.listig.lists.entities.ListItem;
+import com.example.listig.lists.entities.UserList;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListDto {

@@ -1,14 +1,11 @@
 
-package com.example.listig.resources;
+package com.example.listig.user;
 
 
-import com.example.listig.dto.CreateUserDto;
-import com.example.listig.dto.ListDto;
-import com.example.listig.dto.UserDto;
+import com.example.listig.lists.ListDto;
 import com.example.listig.exceptions.ErrorResponce;
 import com.example.listig.exceptions.InvalidPasswordException;
 import com.example.listig.exceptions.UserCreationException;
-import com.example.listig.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

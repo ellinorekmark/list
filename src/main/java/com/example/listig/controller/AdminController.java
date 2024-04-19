@@ -1,4 +1,4 @@
-package com.example.listig.resources;
+package com.example.listig.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
+
+    @GetMapping()
+    ResponseEntity<String> something(){
+        return  ResponseEntity.ok().body("You are an admin");
+    }
 
     @DeleteMapping("/delete/user/{id}")
     void deleteUser(@PathVariable Long id){

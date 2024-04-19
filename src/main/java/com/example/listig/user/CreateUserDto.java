@@ -1,4 +1,4 @@
-package com.example.listig.dto;
+package com.example.listig.user;
 
 public class CreateUserDto extends UserDto{
     String password;

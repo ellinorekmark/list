@@ -1,6 +1,6 @@
-package com.example.listig.repositories;
+package com.example.listig.lists.repositories;
 
-import com.example.listig.dao.ListItem;
+import com.example.listig.lists.entities.ListItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

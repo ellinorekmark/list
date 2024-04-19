@@ -1,4 +1,4 @@
-package com.example.listig.dao;
+package com.example.listig.user.entities;
 
 import jakarta.persistence.*;
 

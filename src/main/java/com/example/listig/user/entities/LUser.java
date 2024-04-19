@@ -1,11 +1,12 @@
-package com.example.listig.dao;
+package com.example.listig.user.entities;
 
-import com.example.listig.dto.UserDto;
+import com.example.listig.user.UserDto;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @Entity
@@ -29,11 +30,6 @@ public class LUser {
 
     @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
     private List<UserRole> roles;
-
-    @ElementCollection
-    @CollectionTable(name = "user_lists", joinColumns = @JoinColumn(name = "user_id" ))
-    @Column(name = "list_id")
-    private List<Long> listIds;
 
     public LUser() {
 
@@ -101,11 +97,4 @@ public class LUser {
         this.roles = roles;
     }
 
-    public List<Long> getListIds() {
-        return listIds;
-    }
-
-    public void setListIds(List<Long> listIds) {
-        this.listIds = listIds;
-    }
 }

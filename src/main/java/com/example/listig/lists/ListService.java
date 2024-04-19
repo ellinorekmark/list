@@ -1,10 +1,10 @@
-package com.example.listig.service;
+package com.example.listig.lists;
 
-import com.example.listig.dao.ListItem;
-import com.example.listig.dao.UserList;
-import com.example.listig.dto.ListDto;
-import com.example.listig.repositories.ListItemRepository;
-import com.example.listig.repositories.UserListRepository;
+import com.example.listig.lists.entities.ListItem;
+import com.example.listig.lists.entities.UserList;
+import com.example.listig.lists.repositories.ListItemRepository;
+import com.example.listig.lists.repositories.UserListRepository;
+import com.example.listig.user.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

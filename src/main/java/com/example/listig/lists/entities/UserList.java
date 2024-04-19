@@ -1,14 +1,10 @@
-package com.example.listig.dao;
+package com.example.listig.lists.entities;
 
 
-import com.example.listig.ListType;
-import com.example.listig.dto.ListDto;
+import com.example.listig.lists.ListType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "user_lists")

@@ -1,15 +1,12 @@
-package com.example.listig.service;
+package com.example.listig.user;
 
 
-import com.example.listig.dao.LUser;
-
-import com.example.listig.dao.UserRole;
-import com.example.listig.dto.CreateUserDto;
-import com.example.listig.dto.UserDto;
+import com.example.listig.user.entities.LUser;
+import com.example.listig.user.entities.UserRole;
 import com.example.listig.exceptions.UserCreationException;
 import com.example.listig.exceptions.InvalidPasswordException;
-import com.example.listig.repositories.UserRepository;
-import com.example.listig.repositories.UserRoleRepository;
+import com.example.listig.user.repositories.UserRepository;
+import com.example.listig.user.repositories.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
