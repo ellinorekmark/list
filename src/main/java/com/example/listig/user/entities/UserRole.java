@@ -2,9 +2,9 @@ package com.example.listig.user.entities;
 
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "user_roles")
+@SuppressWarnings("unused")
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

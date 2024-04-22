@@ -1,10 +1,10 @@
 package com.example.listig.user;
 
 
+import com.example.listig.exceptions.InvalidPasswordException;
+import com.example.listig.exceptions.UserCreationException;
 import com.example.listig.user.entities.LUser;
 import com.example.listig.user.entities.UserRole;
-import com.example.listig.exceptions.UserCreationException;
-import com.example.listig.exceptions.InvalidPasswordException;
 import com.example.listig.user.repositories.UserRepository;
 import com.example.listig.user.repositories.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.logging.Logger;
 
 
 @Service
 public class UserService {
-    private static final Logger logger = Logger.getLogger( UserService.class.getName() );
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -35,15 +33,12 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    public Long findUserIdByUsername(String username){
+    public Long findUserIdByUsername(String username) {
         return userRepository.getUserByUsername(username).getId();
-    }
-    public String findUsernameById(Long userId) {
-        return userRepository.getUserById(userId).getUsername();
     }
 
     public UserDto createUser(CreateUserDto user) throws InvalidPasswordException, UserCreationException {
-        if(!user.getPassword().equals(user.getPasswordConfirm())){
+        if (!user.getPassword().equals(user.getPasswordConfirm())) {
             throw new InvalidPasswordException("Passwords don't match");
         } else if (userRepository.existsByEmail(user.getEmail())) {
             throw new UserCreationException("There is already an account associated with this email");
@@ -51,9 +46,9 @@ public class UserService {
         } else if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserCreationException("Username is taken");
 
-        } else{
+        } else {
             LUser createUser = new LUser(user);
-            if(createUser.getMemberSince()==null){
+            if (createUser.getMemberSince() == null) {
                 createUser.setMemberSince(LocalDateTime.now());
             }
             createUser.setPwHash(encoder.encode(user.getPassword()));
@@ -64,25 +59,8 @@ public class UserService {
 
     }
 
-    public void updatePassword(String username, String oldPassword, String newPassword, String passwordConfirm) throws InvalidPasswordException {
-        LUser user = userRepository.getUserByUsername(username);
-
-        if(!encoder.matches(oldPassword,user.getPwHash())) {
-            throw new InvalidPasswordException("Current password does not match");
-        }
-        if(!newPassword.equals(passwordConfirm)){
-            throw new InvalidPasswordException("New passwords don't match");
-        }
-        else user.setPwHash(encoder.encode(newPassword));
-    }
-
-    public void delete(String username) {
-        LUser user = userRepository.findUserByUsername(username);
-        userRepository.delete(user);
-    }
-
-
-    public LUser loadUserByUsername(String username){
+    //TODO: can I remove this method?
+    public LUser loadUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
 

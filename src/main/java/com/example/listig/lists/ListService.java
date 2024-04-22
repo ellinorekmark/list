@@ -36,9 +36,9 @@ public class ListService {
         Long userId = userService.findUserIdByUsername(username);
         UserList list = listDto.getList();
 
-        if(list.getId() !=null){
+        if (list.getId() != null) {
             if (repository.userOwnsList(userId, list.getId()) == null) {
-                logger.log(Level.WARNING,"User does not own list");
+                logger.log(Level.WARNING, "User does not own list");
                 throw new Exception("User does not own list");
             }
         }
@@ -55,7 +55,7 @@ public class ListService {
         viewers.forEach(v -> repository.upsertUserRoleInList(listId, userService.findUserIdByUsername(v), ListRole.VIEWER.toString()));
 
         List<ListItem> items = listDto.getItems();
-        items.forEach(i-> {
+        items.forEach(i -> {
             i.setListId(listId);
             itemRepository.save(i);
         });
@@ -85,10 +85,9 @@ public class ListService {
     public ListDto getListFromUser(Long id, String username) throws Exception {
         Long userId = userService.findUserIdByUsername(username);
         UserList list = repository.getUserListById(id);
-        if(repository.userOwnsList(userId, list.getId()) == null){
+        if (repository.userOwnsList(userId, list.getId()) == null) {
             throw new Exception("User does not own list");
-        }
-        else{
+        } else {
             return populateListDto(list);
         }
     }
@@ -97,10 +96,9 @@ public class ListService {
     public void deleteList(String username, Long listId) throws Exception {
         Long userId = userService.findUserIdByUsername(username);
         UserList userList = repository.getUserListById(listId);
-        if(repository.userOwnsList(userId, listId) == null){
+        if (repository.userOwnsList(userId, listId) == null) {
             throw new Exception("User does not own list");
-        }
-        else{
+        } else {
             itemRepository.deleteAll(itemRepository.getItemsByListId(listId));
             repository.deleteListsAndUsers(listId);
             repository.delete(userList);
@@ -109,20 +107,20 @@ public class ListService {
 
     public boolean userOwnsList(String username, Long listId) {
         Long userId = userService.findUserIdByUsername(username);
-        return repository.userOwnsList(userId,listId) != null;
+        return repository.userOwnsList(userId, listId) != null;
     }
 
     @Transactional
     public void addUserToList(Long listId, String user, ListRole role) throws Exception {
 
         Long userId = userService.findUserIdByUsername(user);
-        if(userId == null){
+        if (userId == null) {
             throw new Exception("User doesn't exist");
         }
 
         Optional<UserList> optionalUserList = repository.findById(listId);
-        if(optionalUserList.isPresent()){
-            repository.addListUser(listId,userId,role.toString());
+        if (optionalUserList.isPresent()) {
+            repository.addListUser(listId, userId, role.toString());
             notificationService.addedToList(
                     userService.findUserIdByUsername(user),
                     optionalUserList.get().getListName(),

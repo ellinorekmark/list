@@ -16,13 +16,14 @@ public class ListResource {
     ListService listService;
 
     @GetMapping()
-    ResponseEntity<List<ListDto>> getAllUserLists(){
+    ResponseEntity<List<ListDto>> getAllUserLists() {
         List<ListDto> lists = listService.getAllListsFromUser(AuthUtil.getUserName());
 
         return ResponseEntity.ok(lists);
     }
+
     @GetMapping("/{id}")
-    ResponseEntity<ListDto> getSpecificListFromUser(@PathVariable("id") Long id){
+    ResponseEntity<ListDto> getSpecificListFromUser(@PathVariable("id") Long id) {
         ListDto list;
         try {
             list = listService.getListFromUser(id, AuthUtil.getUserName());
@@ -34,48 +35,46 @@ public class ListResource {
     }
 
     @PostMapping()
-    ResponseEntity<ListDto> createOrUpdateList(@RequestBody @Valid ListDto list){
-        try{
+    ResponseEntity<ListDto> createOrUpdateList(@RequestBody @Valid ListDto list) {
+        try {
             list = listService.createOrUpdateList(AuthUtil.getUserName(), list);
             return ResponseEntity.ok(list);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
             return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping()
-    ResponseEntity<String> deleteList(@RequestBody Long list){
-        try{
+    ResponseEntity<String> deleteList(@RequestBody Long list) {
+        try {
             listService.deleteList(AuthUtil.getUserName(), list);
             return ResponseEntity.ok().build();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PostMapping("/invite")
-    ResponseEntity<Object> inviteToList(@RequestBody Invitation invitation){
-        if(userOwnsList(invitation.listId())){
+    ResponseEntity<Object> inviteToList(@RequestBody Invitation invitation) {
+        if (userOwnsList(invitation.listId())) {
             try {
                 listService.addUserToList(invitation.listId(), invitation.user(), invitation.role);
                 return ResponseEntity.accepted().build();
             } catch (Exception e) {
                 return ResponseEntity.badRequest().body(e.getMessage());
             }
-        }
-        else{
+        } else {
             return ResponseEntity.badRequest().body("User does not own list.");
         }
 
     }
 
     private boolean userOwnsList(Long listId) {
-        return listService.userOwnsList(AuthUtil.getUserName(),listId);
+        return listService.userOwnsList(AuthUtil.getUserName(), listId);
     }
 
-     public record Invitation(Long listId, String user, ListRole role){}
+    public record Invitation(Long listId, String user, ListRole role) {
+    }
 
 }

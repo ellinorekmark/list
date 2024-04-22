@@ -31,7 +31,7 @@ class UserServiceTest {
 
     @Test
     void createNewUser() throws UserCreationException, InvalidPasswordException {
-        CreateUserDto createUserDto = newCreateUserDto("user", "password");
+        CreateUserDto createUserDto = newCreateUserDto();
         when(service.userRepository.existsByEmail(any())).thenReturn(false);
         when(service.userRepository.existsByUsername(any())).thenReturn(false);
         when(service.userRepository.save(any())).thenReturn(lUserFromDb(createUserDto));
@@ -45,7 +45,7 @@ class UserServiceTest {
 
     @Test
     void createUserFailsWhenEmailAlreadyExists(){
-        CreateUserDto createUserDto = newCreateUserDto("user","password");
+        CreateUserDto createUserDto = newCreateUserDto();
         when(service.userRepository.existsByEmail(any())).thenReturn(true);
 
         assertThrows(UserCreationException.class, () ->service.createUser(createUserDto));
@@ -57,7 +57,7 @@ class UserServiceTest {
     }
     @Test
     void createUserFailsWhenPasswordsDontMatch(){
-        CreateUserDto createUserDto = newCreateUserDto("user","password");
+        CreateUserDto createUserDto = newCreateUserDto();
         createUserDto.setPasswordConfirm("mismatch");
 
         assertThrows(InvalidPasswordException.class, () ->service.createUser(createUserDto));
@@ -74,12 +74,12 @@ class UserServiceTest {
         return lUser;
     }
 
-    private static CreateUserDto newCreateUserDto( String username, String password) {
+    private static CreateUserDto newCreateUserDto() {
         CreateUserDto user = new CreateUserDto();
-        user.setUsername(username);
-        user.setEmail(username+"@email.com");
-        user.setPassword(password);
-        user.setPasswordConfirm(password);
+        user.setUsername("user");
+        user.setEmail("user" +"@email.com");
+        user.setPassword("password");
+        user.setPasswordConfirm("password");
         return user;
     }
 

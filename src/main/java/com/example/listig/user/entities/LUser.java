@@ -5,12 +5,10 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 @Entity
 @Table(name = "users")
+@SuppressWarnings("unused")
 public class LUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,15 +35,6 @@ public class LUser {
     public LUser(UserDto dto) {
     this.username = dto.getUsername();
     this.email = dto.getEmail();
-    }
-
-
-    public LUser(Long id, String email, String username, String pwHash, List<UserRole> roles) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-        this.pwHash = pwHash;
-        this.roles = roles;
     }
 
     public Long getId() {

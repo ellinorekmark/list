@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<LUser, Long> {
 
-    LUser findUserById(Long id);
-    LUser findUserByEmail(String email);
     LUser findUserByUsername(String username);
+
     Boolean existsByEmail(String email);
+
     Boolean existsByUsername(String username);
 
     LUser findByUsername(String username);

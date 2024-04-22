@@ -24,7 +24,7 @@ public class WebSecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
@@ -51,7 +51,6 @@ public class WebSecurityConfig {
 
         return authProvider;
     }
-
 
 
 }

@@ -54,20 +54,6 @@ public class ListDto {
     public void setItems(List<ListItem> items) {
         this.items = items;
     }
-    public void addItem(ListItem item){
-        items.add(item);
-    }
-    public void updateItem(ListItem item){
-        for (int i = 0; i < items.size(); i++) {
-            ListItem listItem = items.get(i);
-            if (listItem.getId().equals(item.getId())) {
-                items.set(i, item);
-                break;
-            }
-        }
-    }
-    public void removeItem(ListItem item){
-        items.remove(item);
-    }
+
 
 }

@@ -1,15 +1,15 @@
 package com.example.listig.security;
 
 
-import java.util.Collection;
-
 import com.example.listig.user.entities.LUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+
 public class LUserDetails implements UserDetails {
 
-    private LUser user;
+    private final LUser user;
 
     public LUserDetails(LUser user) {
         this.user = user;

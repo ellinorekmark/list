@@ -20,7 +20,6 @@ public class NotificationService {
     UserService userService;
 
 
-
     public void addedToList(Long userId, String listName, String role, String listOwner) {
         ListigNotification notification = new ListigNotification();
         notification.setMessage(String.format(ADDED_TO_LIST, role, listName, listOwner));
@@ -29,12 +28,8 @@ public class NotificationService {
         repository.save(notification);
     }
 
-    public void deleteNotification(Long notificationId){
-        repository.deleteById(notificationId);
-    }
-
     @Transactional
-    public List<ListigNotification> getNotifications(String username){
+    public List<ListigNotification> getNotifications(String username) {
         List<ListigNotification> notifications = repository.findAllByUserId(userService.findUserIdByUsername(username));
         repository.deleteAllByUserId(userService.findUserIdByUsername(username));
         return notifications;

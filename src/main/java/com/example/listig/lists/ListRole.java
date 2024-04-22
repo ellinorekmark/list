@@ -3,20 +3,19 @@ package com.example.listig.lists;
 public enum ListRole {
     OWNER {
         @Override
-        public String toString(){
+        public String toString() {
             return "Owner";
         }
-    }
-    ,
-    EDITOR{
+    },
+    EDITOR {
         @Override
-        public String toString(){
+        public String toString() {
             return "Editor";
         }
     },
-    VIEWER{
+    VIEWER {
         @Override
-        public String toString(){
+        public String toString() {
             return "Viewer";
         }
     }

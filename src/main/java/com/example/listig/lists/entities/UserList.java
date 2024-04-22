@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_lists")
+@SuppressWarnings("unused")
 public class UserList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +26,6 @@ public class UserList {
 
     @Column
     private LocalDateTime createdAt;
-
 
     public UserList() {
     }
@@ -61,7 +61,6 @@ public class UserList {
     public void setListDesc(String listDesc) {
         this.listDesc = listDesc;
     }
-
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

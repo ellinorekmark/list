@@ -7,29 +7,19 @@ import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 public class UserDto {
-    @Pattern(regexp = "^[\\w-]{2,20}$", message= "Invalid username: Must be 2-20 characters, no special characters.")
+    @Pattern(regexp = "^[\\w-]{2,20}$", message = "Invalid username: Must be 2-20 characters, no special characters.")
     private String username;
-    @Email(message="Must be a valid email address.")
+    @Email(message = "Must be a valid email address.")
     private String email;
-
     private LocalDateTime memberSince;
-
 
     public UserDto() {
     }
+
     public UserDto(LUser user) {
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.memberSince = user.getMemberSince();
-    }
-
-    public UserDto(
-            String username,
-            String email,
-            LocalDateTime memberSince) {
-        this.username = username;
-        this.email = email;
-        this.memberSince = memberSince;
     }
 
     public String getUsername() {

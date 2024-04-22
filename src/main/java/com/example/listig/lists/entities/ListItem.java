@@ -1,10 +1,11 @@
 package com.example.listig.lists.entities;
-import com.example.listig.lists.ListType;
+
 import jakarta.persistence.*;
 
 
 @Entity
 @Table(name = "list_items")
+@SuppressWarnings("unused")
 public class ListItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
