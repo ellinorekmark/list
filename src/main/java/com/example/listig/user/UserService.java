@@ -38,6 +38,9 @@ public class UserService {
     public Long findUserIdByUsername(String username){
         return userRepository.getUserByUsername(username).getId();
     }
+    public String findUsernameById(Long userId) {
+        return userRepository.getUserById(userId).getUsername();
+    }
 
     public UserDto createUser(CreateUserDto user) throws InvalidPasswordException, UserCreationException {
         if(!user.getPassword().equals(user.getPasswordConfirm())){
@@ -87,4 +90,5 @@ public class UserService {
         LUser lUser = userRepository.findByUsername(userAuth);
         return new UserDto(lUser);
     }
+
 }

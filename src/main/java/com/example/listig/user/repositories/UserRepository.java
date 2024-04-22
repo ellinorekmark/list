@@ -15,5 +15,5 @@ public interface UserRepository extends JpaRepository<LUser, Long> {
 
     LUser getUserByUsername(String username);
 
-
+    LUser getUserById(Long userId);
 }

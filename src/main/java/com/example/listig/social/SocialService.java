@@ -6,6 +6,7 @@ import com.example.listig.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,9 +66,35 @@ public class SocialService {
         return new friendUsers(userA, userB);
     }
 
-    public List<Friends> getFriends(String username) {
-        return repository.findAllByUserId(userService.findUserIdByUsername(username));
+    public List<FriendsDto> getFriends(String username) {
+        Long userId = userService.findUserIdByUsername(username);
+        List<Friends> friends = repository.findAllByUserId(userId);
+
+
+        return friendstoDto(userId, username, friends);
     }
+
+    private List<FriendsDto> friendstoDto(Long userId, String username, List<Friends> friends) {
+        List<FriendsDto> dtos = new ArrayList<>();
+        for (Friends f : friends){
+            FriendsDto dto = new FriendsDto();
+            if(f.getUserAId().equals(userId)){
+                dto.setFriend(userService.findUsernameById(f.getUserBId()));
+            }
+            else{
+                dto.setFriend(userService.findUsernameById(f.getUserAId()));
+            }
+            setFriendStatus(dto, f);
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    private void setFriendStatus(FriendsDto dto, Friends f) {
+
+
+    }
+
 
     private record friendUsers(Long userA, Long userB) {
     }

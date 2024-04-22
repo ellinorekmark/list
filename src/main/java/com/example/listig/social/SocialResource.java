@@ -15,8 +15,8 @@ import java.util.List;
     SocialService service;
 
     @GetMapping()
-    ResponseEntity<List<Friends>> getFriends(){
-    List<Friends> friends = service.getFriends(AuthUtil.getUserName());
+    ResponseEntity<List<FriendsDto>> getFriends(){
+    List<FriendsDto> friends = service.getFriends(AuthUtil.getUserName());
     return ResponseEntity.ok().body(friends);
     }
 

@@ -24,12 +24,7 @@ public class UserList {
     private String listDesc;
 
     @Column
-    private boolean isPublic;
-
-    @Column
     private LocalDateTime createdAt;
-
-
 
 
     public UserList() {
@@ -67,13 +62,6 @@ public class UserList {
         this.listDesc = listDesc;
     }
 
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

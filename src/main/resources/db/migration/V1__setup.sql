@@ -21,7 +21,6 @@ CREATE TABLE user_lists
     list_name   VARCHAR(255),
     type        VARCHAR(255),
     list_desc   VARCHAR(255),
-    is_public   TINYINT DEFAULT 0,
     created_at  DATETIME DEFAULT NOW()
 );
 
@@ -39,10 +38,17 @@ CREATE TABLE friends
 (
   userA_id INT NOT NULL,
   userB_id INT NOT NULL,
-  request_status VARCHAR(255) DEFAULT 'pending',
   PRIMARY KEY(userA_id, userB_id),
   FOREIGN KEY (userA_id) REFERENCES users(id),
   FOREIGN KEY (userB_id) REFERENCES users(id)
+);
+
+CREATE TABLE pending_friend_request
+(
+    from_user INT NOT NULL,
+    to_user INT NOT NULL,
+    FOREIGN KEY (from_user) REFERENCES users(id),
+    FOREIGN KEY (to_user) REFERENCES users(id)
 );
 
 CREATE TABLE list_items
