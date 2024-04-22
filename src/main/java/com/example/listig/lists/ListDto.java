@@ -7,19 +7,28 @@ import java.util.List;
 
 public class ListDto {
     UserList list;
-    private List<String> owners;
+    private String owner;
+    private List<String> editors;
     private List<String> viewers;
     private List<ListItem> items;
 
     public ListDto() {
     }
 
-    public List<String> getOwners() {
-        return owners;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setOwners(List<String> owners) {
-        this.owners = owners;
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public List<String> getEditors() {
+        return editors;
+    }
+
+    public void setEditors(List<String> editors) {
+        this.editors = editors;
     }
 
     public List<String> getViewers() {

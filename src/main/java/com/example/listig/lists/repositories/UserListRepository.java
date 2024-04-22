@@ -1,5 +1,6 @@
 package com.example.listig.lists.repositories;
 
+import com.example.listig.lists.ListRole;
 import com.example.listig.lists.entities.UserList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,4 +30,7 @@ public interface UserListRepository extends JpaRepository<UserList, Long> {
     @Query(value = "DELETE FROM list_users WHERE list_id = :listId", nativeQuery = true)
     void deleteListsAndUsers(@Param("listId") Long listId);
 
+    @Modifying
+    @Query(value = "INSERT INTO list_users (list_id, user_id, list_role) VALUES (:listId, :listUser, :listRole)", nativeQuery = true)
+    void addListUser(Long listId, Long listUser, String listRole);
 }

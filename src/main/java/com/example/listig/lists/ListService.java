@@ -1,15 +1,18 @@
 package com.example.listig.lists;
 
+import com.example.listig.AuthUtil;
 import com.example.listig.lists.entities.ListItem;
 import com.example.listig.lists.entities.UserList;
 import com.example.listig.lists.repositories.ListItemRepository;
 import com.example.listig.lists.repositories.UserListRepository;
+import com.example.listig.notifications.NotificationService;
 import com.example.listig.user.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +25,8 @@ public class ListService {
     ListItemRepository itemRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    NotificationService notificationService;
 
 
     private static final Logger logger = Logger.getLogger(ListService.class.getName());
@@ -40,11 +45,14 @@ public class ListService {
         list = repository.save(list);
         Long listId = list.getId();
 
-        List<String> owners = listDto.getOwners();
-        owners.forEach(o -> repository.upsertUserRoleInList(listId, userService.findUserIdByUsername(o), "Owner"));
+        String owner = listDto.getOwner();
+        repository.upsertUserRoleInList(listId, userService.findUserIdByUsername(owner), ListRole.OWNER.toString());
+
+        List<String> editors = listDto.getEditors();
+        editors.forEach(v -> repository.upsertUserRoleInList(listId, userService.findUserIdByUsername(v), ListRole.EDITOR.toString()));
 
         List<String> viewers = listDto.getViewers();
-        viewers.forEach(v -> repository.upsertUserRoleInList(listId, userService.findUserIdByUsername(v), "Viewer"));
+        viewers.forEach(v -> repository.upsertUserRoleInList(listId, userService.findUserIdByUsername(v), ListRole.VIEWER.toString()));
 
         List<ListItem> items = listDto.getItems();
         items.forEach(i-> {
@@ -67,7 +75,8 @@ public class ListService {
     private ListDto populateListDto(UserList l) {
         ListDto dto = new ListDto();
         dto.setList(l);
-        dto.setOwners(repository.findListUserByListAndRole(l.getId(), "Owner"));
+        dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").getFirst());
+        dto.setEditors(repository.findListUserByListAndRole(l.getId(), "Editor"));
         dto.setViewers(repository.findListUserByListAndRole(l.getId(), "Viewer"));
         dto.setItems(itemRepository.getItemsByListId(l.getId()));
         return dto;
@@ -97,4 +106,29 @@ public class ListService {
             repository.delete(userList);
         }
     }
+
+    public boolean userOwnsList(String username, Long listId) {
+        Long userId = userService.findUserIdByUsername(username);
+        return repository.userOwnsList(userId,listId) != null;
+    }
+
+    @Transactional
+    public void addUserToList(Long listId, String user, ListRole role) throws Exception {
+
+        Long userId = userService.findUserIdByUsername(user);
+        if(userId == null){
+            throw new Exception("User doesn't exist");
+        }
+
+        Optional<UserList> optionalUserList = repository.findById(listId);
+        if(optionalUserList.isPresent()){
+            repository.addListUser(listId,userId,role.toString());
+            notificationService.addedToList(
+                    userService.findUserIdByUsername(user),
+                    optionalUserList.get().getListName(),
+                    role.toString(),
+                    AuthUtil.getUserName());
+        }
+    }
+
 }

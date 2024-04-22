@@ -34,29 +34,12 @@ CREATE TABLE list_users
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE friends
-(
-  userA_id INT NOT NULL,
-  userB_id INT NOT NULL,
-  PRIMARY KEY(userA_id, userB_id),
-  FOREIGN KEY (userA_id) REFERENCES users(id),
-  FOREIGN KEY (userB_id) REFERENCES users(id)
-);
-
-CREATE TABLE pending_friend_request
-(
-    from_user INT NOT NULL,
-    to_user INT NOT NULL,
-    FOREIGN KEY (from_user) REFERENCES users(id),
-    FOREIGN KEY (to_user) REFERENCES users(id)
-);
 
 CREATE TABLE list_items
 (
     id          INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     list_id     INT NOT NULL,
     item        VARCHAR(255),
-    type        VARCHAR(255),
     item_status      VARCHAR(255),
     FOREIGN KEY (list_id) REFERENCES user_lists(id)
 );
@@ -66,6 +49,5 @@ CREATE TABLE notifications (
     user_id INT NOT NULL,
     message VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    is_read TINYINT NOT NULL DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );

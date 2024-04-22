@@ -55,4 +55,27 @@ public class ListResource {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PostMapping("/invite")
+    ResponseEntity<Object> inviteToList(@RequestBody Invitation invitation){
+        if(userOwnsList(invitation.listId())){
+            try {
+                listService.addUserToList(invitation.listId(), invitation.user(), invitation.role);
+                return ResponseEntity.accepted().build();
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+        }
+        else{
+            return ResponseEntity.badRequest().body("User does not own list.");
+        }
+
+    }
+
+    private boolean userOwnsList(Long listId) {
+        return listService.userOwnsList(AuthUtil.getUserName(),listId);
+    }
+
+     public record Invitation(Long listId, String user, ListRole role){}
+
 }

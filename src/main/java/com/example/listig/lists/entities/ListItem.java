@@ -15,18 +15,12 @@ public class ListItem {
     @Column
     private String item;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ListType type;
-
     @Column
     private String itemStatus;
 
     public ListItem() {
 
     }
-
-
 
 
     public Long getId() {
@@ -51,14 +45,6 @@ public class ListItem {
 
     public void setItem(String item) {
         this.item = item;
-    }
-
-    public ListType getType() {
-        return type;
-    }
-
-    public void setType(ListType type) {
-        this.type = type;
     }
 
     public String getItemStatus() {

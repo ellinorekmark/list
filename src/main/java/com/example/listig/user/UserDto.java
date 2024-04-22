@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 public class UserDto {
-    @Pattern(regexp = "^[\\w-]{2,10}$", message= "Invalid username: Must be 2-10 characters, no special characters.")
+    @Pattern(regexp = "^[\\w-]{2,20}$", message= "Invalid username: Must be 2-20 characters, no special characters.")
     private String username;
     @Email(message="Must be a valid email address.")
     private String email;
