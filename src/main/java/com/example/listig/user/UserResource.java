@@ -2,6 +2,7 @@
 package com.example.listig.user;
 
 
+import com.example.listig.AuthUtil;
 import com.example.listig.lists.ListDto;
 import com.example.listig.exceptions.ErrorResponce;
 import com.example.listig.exceptions.InvalidPasswordException;
@@ -26,9 +27,7 @@ public class UserResource {
 
     @GetMapping()
     ResponseEntity<UserDto> getUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userAuth = authentication.getName();
-        UserDto user = userService.getUser(userAuth);
+        UserDto user = userService.getUser(AuthUtil.getUserName());
         return ResponseEntity.ok().body(user);
     }
 
@@ -42,17 +41,6 @@ public class UserResource {
         }
 
     }
-
-    @GetMapping("/requests/")
-    ResponseEntity<List<ListDto>>getLists(){
-        return ResponseEntity.ok().body(null);
-    }
-
-
-
-
-
-
 
 }
 
