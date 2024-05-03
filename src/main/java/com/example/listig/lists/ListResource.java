@@ -35,13 +35,13 @@ public class ListResource {
     }
 
     @PostMapping()
-    ResponseEntity<ListDto> createOrUpdateList(@RequestBody @Valid ListDto list) {
+    ResponseEntity<Object> createOrUpdateList(@RequestBody ListDto list) {
         try {
             list = listService.createOrUpdateList(AuthUtil.getUserName(), list);
             return ResponseEntity.ok(list);
         } catch (Exception e) {
 
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e);
         }
     }
 
