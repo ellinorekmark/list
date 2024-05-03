@@ -1,6 +1,7 @@
 package com.example.listig.lists;
 
 import com.example.listig.AuthUtil;
+import com.example.listig.lists.entities.ListItem;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,17 @@ public class ListResource {
     ResponseEntity<String> deleteList(@RequestBody Long list) {
         try {
             listService.deleteList(AuthUtil.getUserName(), list);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("Successfully deleted list");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/item")
+    ResponseEntity<Object> deleteItem(@RequestBody ListItem item) {
+        try {
+            ListDto updatedList = listService.deleteItem(AuthUtil.getUserName(), item);
+            return ResponseEntity.ok().body(updatedList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

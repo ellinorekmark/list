@@ -37,9 +37,9 @@ public class ListService {
         UserList list = listDto.getList();
 
         if (list.getId() != null) {
-            if (repository.userOwnsList(userId, list.getId()) == null) {
-                logger.log(Level.WARNING, "User does not own list");
-                throw new Exception("User does not own list");
+            if (repository.userHasEditRights(userId, list.getId()) == null) {
+                logger.log(Level.WARNING, "User does not have edit rights on list");
+                throw new Exception("User does not have edit rights on list");
             }
         }
         list = repository.save(list);
@@ -129,4 +129,10 @@ public class ListService {
         }
     }
 
+    public ListDto deleteItem(String username, ListItem item) throws Exception {
+        if(userOwnsList(username, item.getListId())){
+            itemRepository.delete(item);
+        }
+        return getListFromUser(item.getListId(),username);
+    }
 }

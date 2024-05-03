@@ -32,4 +32,8 @@ public interface UserListRepository extends JpaRepository<UserList, Long> {
     @Modifying
     @Query(value = "INSERT INTO list_users (list_id, user_id, list_role) VALUES (:listId, :listUser, :listRole)", nativeQuery = true)
     void addListUser(Long listId, Long listUser, String listRole);
+
+    @Query(value = "SELECT list_id FROM user_lists l JOIN list_users lu ON l.id = lu.list_id WHERE lu.user_id = :userId AND lu.list_id = :listId AND lu.list_role IN ('Owner', 'Editor')", nativeQuery = true)
+    Long userHasEditRights(Long userId, Long listId);
+
 }
