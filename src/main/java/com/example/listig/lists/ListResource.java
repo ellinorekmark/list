@@ -41,7 +41,6 @@ public class ListResource {
             list = listService.createOrUpdateList(AuthUtil.getUserName(), list);
             return ResponseEntity.ok(list);
         } catch (Exception e) {
-
             return ResponseEntity.badRequest().body(e);
         }
     }
