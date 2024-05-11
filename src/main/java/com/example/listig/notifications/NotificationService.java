@@ -30,9 +30,7 @@ public class NotificationService {
 
     @Transactional
     public List<ListigNotification> getNotifications(String username) {
-        List<ListigNotification> notifications = repository.findAllByUserId(userService.findUserIdByUsername(username));
-        repository.deleteAllByUserId(userService.findUserIdByUsername(username));
-        return notifications;
+        return repository.findAllByUserId(userService.findUserIdByUsername(username));
     }
 
 

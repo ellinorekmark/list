@@ -135,4 +135,18 @@ public class ListService {
         }
         return getListFromUser(item.getListId(),username);
     }
+    @Transactional
+    public ListDto removeUserFromList(ListResource.RemoveUser removeUser) throws Exception {
+        Long userId = userService.findUserIdByUsername(removeUser.user());
+        Optional<UserList> optionalUserList = repository.findById(removeUser.listId());
+
+        if (optionalUserList.isPresent()) {
+            repository.removeListUser(removeUser.listId(), userId);
+            UserList updatedList = repository.getUserListById(removeUser.listId());
+            return populateListDto(updatedList);
+        }
+        else throw new Exception("Can't find list");
+
+
+    }
 }
