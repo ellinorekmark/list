@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: list
+  labels:
+    app: list
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: list
+  template:
+    metadata:
+      labels:
+        app: list
+    spec:
+      containers:
+      - name: list
+        image: localhost:32000/{{IMAGE}}:{{VERSION}}.{{BUILD_NUMBER}}
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 25
+          periodSeconds: 10
+        env:
+        - name: "SPRING_PROFILES_ACTIVE"
+          value: "prod"
