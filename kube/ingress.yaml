@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: list
+spec:
+  rules:
+  - host: "list.jksjv.se"
+    http: &http_rules
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: list
+            port:
+              number: 8080

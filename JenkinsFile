@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    options {
+        skipStagesAfterUnstable()
+    }
+    tools {
+        maven 'M3'
+        jdk 'open jdk 21'
+    }
+    parameters {
+        string(name: 'NAMESPACE', defaultValue: 'ekmark', description: 'Namespace to apply Kubernetes configuration to.')
+        booleanParam(name: 'kubeApply', defaultValue: true, description: 'Should Kubernetes configuration be applied or not.')
+    }
+    environment {
+	    //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
+	    IMAGE = readMavenPom().getArtifactId()
+	    VERSION = readMavenPom().getVersion()
+    }
+    stages {
+       /* stage('Build jar') {
+            steps {
+                sh 'mvn -B -DskipTests clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        } */
+        stage('Build docker') {
+            steps {
+                sh 'mvn spring-boot:build-image -DskipTests'
+                sh "docker image push tiny:32000/${IMAGE}:${VERSION}.${env.BUILD_NUMBER}"
+            }
+        }
+        stage('Apply Kube files') {
+    		when { equals expected: true, actual: params.kubeApply }
+    		steps {
+    			sh "sed -i 's/{{VERSION}}/${VERSION}/g' ./kube/*.yaml"
+    			sh "sed -i 's/{{IMAGE}}/${IMAGE}/g' ./kube/*.yaml"
+    			sh "sed -i 's/{{BUILD_NUMBER}}/${env.BUILD_NUMBER}/g' ./kube/*.yaml"
+                sh "microk8s kubectl apply -f ./kube -n ${params.NAMESPACE}"
+            }
+	    }
+    }
+}
