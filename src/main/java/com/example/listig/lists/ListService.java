@@ -111,7 +111,7 @@ public class ListService {
     }
 
     @Transactional
-    public void addUserToList(Long listId, String user, ListRole role) throws Exception {
+    public ListDto addUserToList(Long listId, String user, ListRole role) throws Exception {
 
         Long userId = userService.findUserIdByUsername(user);
         if (userId == null) {
@@ -127,6 +127,10 @@ public class ListService {
                     role.toString(),
                     AuthUtil.getUserName());
         }
+
+        UserList updatedList = repository.getUserListById(listId);
+        return populateListDto(updatedList);
+
     }
 
     public ListDto deleteItem(String username, ListItem item) throws Exception {

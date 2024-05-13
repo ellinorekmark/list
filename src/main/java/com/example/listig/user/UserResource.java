@@ -3,7 +3,7 @@ package com.example.listig.user;
 
 
 import com.example.listig.AuthUtil;
-import com.example.listig.exceptions.ErrorResponce;
+import com.example.listig.exceptions.ExceptionResponse;
 import com.example.listig.exceptions.InvalidPasswordException;
 import com.example.listig.exceptions.UserCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserResource {
             UserDto createdUser = userService.createUser(user);
             return ResponseEntity.ok().body(createdUser);
         } catch (InvalidPasswordException | UserCreationException e) {
-            return ResponseEntity.badRequest().body(new ErrorResponce("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(new ExceptionResponse(e.getMessage()));
         }
     }
 

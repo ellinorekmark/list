@@ -1,6 +1,7 @@
 package com.example.listig.lists;
 
 import com.example.listig.AuthUtil;
+import com.example.listig.exceptions.ExceptionResponse;
 import com.example.listig.lists.entities.ListItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,6 @@ public class ListResource {
 
     @Autowired
     ListService listService;
-
-    String ERROR_OBJECT = "{'message' : '%s'}";
 
     @GetMapping()
     ResponseEntity<List<ListDto>> getAllUserLists() {
@@ -31,7 +30,7 @@ public class ListResource {
             list = listService.getListFromUser(id, AuthUtil.getUserName());
             return ResponseEntity.ok(list);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(String.format(ERROR_OBJECT,e));
+            return ResponseEntity.badRequest().body(new ExceptionResponse(e.getMessage()));
         }
 
     }
@@ -42,7 +41,7 @@ public class ListResource {
             list = listService.createOrUpdateList(AuthUtil.getUserName(), list);
             return ResponseEntity.ok(list);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(String.format(ERROR_OBJECT,e));
+            return ResponseEntity.badRequest().body(new ExceptionResponse(e.getMessage()));
         }
     }
 
@@ -53,7 +52,7 @@ public class ListResource {
             List<ListDto> all = listService.getAllListsFromUser(AuthUtil.getUserName());
             return ResponseEntity.ok().body(all);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(String.format(ERROR_OBJECT,e));
+            return ResponseEntity.badRequest().body(new ExceptionResponse(e.getMessage()));
         }
     }
 
@@ -63,7 +62,7 @@ public class ListResource {
             ListDto updatedList = listService.deleteItem(AuthUtil.getUserName(), item);
             return ResponseEntity.ok().body(updatedList);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(String.format(ERROR_OBJECT,e));
+            return ResponseEntity.badRequest().body(new ExceptionResponse(e.getMessage()));
         }
     }
 
@@ -71,13 +70,13 @@ public class ListResource {
     ResponseEntity<Object> inviteToList(@RequestBody Invitation invitation) {
         if (userOwnsList(invitation.listId())) {
             try {
-                listService.addUserToList(invitation.listId(), invitation.user(), invitation.role);
-                return ResponseEntity.accepted().body("Invitation sent.");
+                ListDto updatedList = listService.addUserToList(invitation.listId(), invitation.user(), invitation.role);
+                return ResponseEntity.accepted().body(updatedList);
             } catch (Exception e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
+                return ResponseEntity.badRequest().body(new ExceptionResponse(e.getMessage()));
             }
         } else {
-            return ResponseEntity.badRequest().body("User does not own list.");
+            return ResponseEntity.badRequest().body(new ExceptionResponse("You are not authorized to invite users to this list"));
         }
 
     }
@@ -89,12 +88,12 @@ public class ListResource {
             try {
                 updatedList = listService.removeUserFromList(removeUser);
             } catch (Exception e) {
-                return ResponseEntity.badRequest().body(String.format(ERROR_OBJECT,e));
+                return ResponseEntity.badRequest().body(new ExceptionResponse(e.getMessage()));
             }
             return ResponseEntity.ok().body(updatedList);
         }
         else{
-            return ResponseEntity.badRequest().body(String.format(ERROR_OBJECT,"Unauthorized."));
+            return ResponseEntity.badRequest().body(new ExceptionResponse("Unauthorized"));
         }
     }
 
