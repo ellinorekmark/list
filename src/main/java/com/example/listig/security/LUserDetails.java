@@ -20,7 +20,6 @@ public class LUserDetails implements UserDetails {
         return user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getAccountRole()))
                 .toList();
-
     }
 
     @Override
