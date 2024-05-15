@@ -40,4 +40,6 @@ public interface UserListRepository extends JpaRepository<UserList, Long> {
     @Query(value = "DELETE FROM list_users WHERE list_id = :listId AND user_id = :user", nativeQuery = true)
     void removeListUser(Long listId, Long user);
 
+    @Query(value = "SELECT list_id, COUNT(DISTINCT user_id) AS user_count FROM list_users GROUP BY list_id HAVING user_count > 1", nativeQuery = true)
+    List<Long> countSharedLists();
 }

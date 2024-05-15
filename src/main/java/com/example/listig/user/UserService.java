@@ -53,7 +53,7 @@ public class UserService {
             }
             createUser.setPwHash(encoder.encode(user.getPassword()));
             createUser = userRepository.save(createUser);
-            roleRepository.save(new UserRole(createUser.getId(), "USER"));
+            roleRepository.save(new UserRole(createUser.getId(), "ROLE_USER"));
             return new UserDto(createUser);
         }
 
