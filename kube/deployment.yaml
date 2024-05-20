@@ -42,4 +42,5 @@ spec:
         - name: DB_PASS
           valueFrom:
             secretKeyRef:
+              key: password
               name: list-db-pass
