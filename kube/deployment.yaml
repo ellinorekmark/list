@@ -39,3 +39,7 @@ spec:
         env:
         - name: "SPRING_PROFILES_ACTIVE"
           value: "prod"
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: list-db-pass
