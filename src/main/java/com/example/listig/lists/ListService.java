@@ -75,7 +75,7 @@ public class ListService {
     private ListDto populateListDto(UserList l) {
         ListDto dto = new ListDto();
         dto.setList(l);
-        dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").getFirst());
+        dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").get(0));
         dto.setEditors(repository.findListUserByListAndRole(l.getId(), "Editor"));
         dto.setViewers(repository.findListUserByListAndRole(l.getId(), "Viewer"));
         dto.setItems(itemRepository.getItemsByListId(l.getId()));
