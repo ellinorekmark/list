@@ -22,6 +22,11 @@ public class ListResource {
 
         return ResponseEntity.ok(lists);
     }
+    @GetMapping("/all")
+    ResponseEntity<Object> getAllUserListsSummary(){
+        List<ListOverview> lists = listService.getSummaryFromUser(AuthUtil.getUserName());
+        return ResponseEntity.ok(lists);
+    }
 
     @GetMapping("/{id}")
     ResponseEntity<Object> getSpecificListFromUser(@PathVariable("id") Long id) {
@@ -96,6 +101,7 @@ public class ListResource {
             return ResponseEntity.badRequest().body(new ExceptionResponse("Unauthorized"));
         }
     }
+
 
 
     private boolean userOwnsList(Long listId) {

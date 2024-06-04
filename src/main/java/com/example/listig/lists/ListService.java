@@ -151,6 +151,11 @@ public class ListService {
         }
         else throw new Exception("Can't find list");
 
+    }
 
+    public List<ListOverview> getSummaryFromUser(String username) {
+        Long userId = userService.findUserIdByUsername(username);
+        List<UserList> userLists = repository.findListsByUserId(userId);
+        return userLists.stream().map(l->new ListOverview(l.getId(),l.getListName(),l.getListDesc(), repository.findListUserByListAndRole(l.getId(),"Owner").getFirst(), repository.countUsers(l.getId()).size())).toList();
     }
 }

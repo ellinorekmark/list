@@ -42,4 +42,7 @@ public interface UserListRepository extends JpaRepository<UserList, Long> {
 
     @Query(value = "SELECT list_id, COUNT(DISTINCT user_id) AS user_count FROM list_users GROUP BY list_id HAVING user_count > 1", nativeQuery = true)
     List<Long> countSharedLists();
+
+    @Query(value = "SELECT user_id FROM list_users WHERE list_id = :id", nativeQuery = true)
+    List<String> countUsers(Long id);
 }
