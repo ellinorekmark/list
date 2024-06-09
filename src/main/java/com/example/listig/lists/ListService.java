@@ -75,7 +75,7 @@ public class ListService {
     private ListDto populateListDto(UserList l) {
         ListDto dto = new ListDto();
         dto.setList(l);
-        dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").get(0));
+        dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").getFirst());
         dto.setEditors(repository.findListUserByListAndRole(l.getId(), "Editor"));
         dto.setViewers(repository.findListUserByListAndRole(l.getId(), "Viewer"));
         dto.setItems(itemRepository.getItemsByListId(l.getId()));
@@ -85,10 +85,12 @@ public class ListService {
     public ListDto getListFromUser(Long id, String username) throws Exception {
         Long userId = userService.findUserIdByUsername(username);
         UserList list = repository.getUserListById(id);
-        if (repository.userOwnsList(userId, list.getId()) == null) {
-            throw new Exception("User does not own list");
-        } else {
+        List<UserList> allLists = repository.findListsByUserId(userId);
+
+        if (allLists.contains(list)) {
             return populateListDto(list);
+        } else {
+            throw new Exception("User does not own list");
         }
     }
 
