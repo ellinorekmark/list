@@ -33,5 +33,16 @@ public class UserResource {
         }
     }
 
+    @PostMapping("/userExists")
+    ResponseEntity<Boolean> checkIfUserExists(@RequestBody Username username){
+        Boolean exists = userService.doesUserExist(username.username);
+        if(exists){
+            return ResponseEntity.ok(true);
+        }
+        else{
+            return ResponseEntity.ok(false);
+        }
+    }
+    public record Username(String username) {}
 }
 

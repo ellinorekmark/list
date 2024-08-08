@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -34,13 +35,16 @@ public class ListService {
     @Transactional
     public ListDto createOrUpdateList(String username, ListDto listDto) throws Exception {
         Long userId = userService.findUserIdByUsername(username);
-        UserList list = listDto.getList();
+        UserList list = listDto.getListInfo();
 
         if (list.getId() != null) {
             if (repository.userHasEditRights(userId, list.getId()) == null) {
                 logger.log(Level.WARNING, "User does not have edit rights on list");
                 throw new Exception("User does not have edit rights on list");
             }
+        }
+        if(list.getCreatedAt()== null){
+            list.setCreatedAt(LocalDateTime.now());
         }
         list = repository.save(list);
         Long listId = list.getId();
@@ -74,7 +78,7 @@ public class ListService {
 
     private ListDto populateListDto(UserList l) {
         ListDto dto = new ListDto();
-        dto.setList(l);
+        dto.setListInfo(l);
         dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").getFirst());
         dto.setEditors(repository.findListUserByListAndRole(l.getId(), "Editor"));
         dto.setViewers(repository.findListUserByListAndRole(l.getId(), "Viewer"));
@@ -158,6 +162,23 @@ public class ListService {
     public List<ListOverview> getSummaryFromUser(String username) {
         Long userId = userService.findUserIdByUsername(username);
         List<UserList> userLists = repository.findListsByUserId(userId);
-        return userLists.stream().map(l->new ListOverview(l.getId(),l.getListName(),l.getListDesc(), repository.findListUserByListAndRole(l.getId(),"Owner").getFirst(), repository.countUsers(l.getId()).size())).toList();
+        return userLists.stream().map(l->
+                new ListOverview(
+                        l.getId(),
+                        l.getListName(),
+                        l.getListDesc(),
+                        repository.findListUserByListAndRole(l.getId(),"Owner").get(0),
+                        repository.countUsers(l.getId()).size(),
+                        l.getType()))
+                .toList();
+    }
+
+    public void socketUpdate(ListDto update) {
+        String owner = update.getOwner();
+        try {
+            createOrUpdateList(owner,update);
+        }
+        catch (Exception ignore){
+        }
     }
 }

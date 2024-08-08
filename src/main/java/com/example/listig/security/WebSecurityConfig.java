@@ -22,14 +22,15 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/api/user/newAccount").permitAll();
+                    auth.requestMatchers("/api/user/userExists").permitAll();
                     auth.requestMatchers("/api/**").authenticated();
+                    auth.requestMatchers("/ws/**").permitAll();
                     auth.requestMatchers("/**").permitAll();
                 })
                 .csrf(AbstractHttpConfigurer::disable)
@@ -42,15 +43,11 @@ public class WebSecurityConfig {
         return new UserDetailsServiceImpl();
     }
 
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
-
         return authProvider;
     }
-
-
 }

@@ -6,7 +6,7 @@ import com.example.listig.lists.entities.UserList;
 import java.util.List;
 
 public class ListDto {
-    UserList list;
+    UserList listInfo;
     private String owner;
     private List<String> editors;
     private List<String> viewers;
@@ -39,12 +39,12 @@ public class ListDto {
         this.viewers = viewers;
     }
 
-    public UserList getList() {
-        return list;
+    public UserList getListInfo() {
+        return listInfo;
     }
 
-    public void setList(UserList list) {
-        this.list = list;
+    public void setListInfo(UserList listInfo) {
+        this.listInfo = listInfo;
     }
 
     public List<ListItem> getItems() {

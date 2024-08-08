@@ -83,7 +83,6 @@ public class ListResource {
         } else {
             return ResponseEntity.badRequest().body(new ExceptionResponse("You are not authorized to invite users to this list"));
         }
-
     }
 
     @PostMapping("/removeUser")
@@ -101,8 +100,6 @@ public class ListResource {
             return ResponseEntity.badRequest().body(new ExceptionResponse("Unauthorized"));
         }
     }
-
-
 
     private boolean userOwnsList(Long listId) {
         return listService.userOwnsList(AuthUtil.getUserName(), listId);

@@ -69,4 +69,8 @@ public class UserService {
         return new UserDto(lUser);
     }
 
+    public Boolean doesUserExist(String username) {
+        LUser user = userRepository.findUserByUsername(username);
+        return user != null;
+    }
 }
