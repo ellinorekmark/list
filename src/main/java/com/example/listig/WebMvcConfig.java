@@ -7,10 +7,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-/*    @Override
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/app/**").setViewName("forward:/index.html");
-    }*/
+        registry.addViewController("/web/**").setViewName("forward:/index.html");
+    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

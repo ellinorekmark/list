@@ -21,15 +21,10 @@ public class WebSocketController {
         this.messagingTemplate = messagingTemplate;
     }
 
-
     @MessageMapping("/list/{id}")
     public void handleListUpdate(@DestinationVariable String id, ListDto list) {
-
-        if(id.equals(list.getListInfo().getId())){
-            System.out.println("list equals id");
-            listService.socketUpdate(list);
-        }
-        messagingTemplate.convertAndSend("/topic/list/" + id, list);
+        ListDto update = listService.socketUpdate(list);
+        messagingTemplate.convertAndSend("/topic/list/" + id, update);
     }
 }
 

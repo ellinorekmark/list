@@ -79,7 +79,7 @@ public class ListService {
     private ListDto populateListDto(UserList l) {
         ListDto dto = new ListDto();
         dto.setListInfo(l);
-        dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").getFirst());
+        dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").get(0));
         dto.setEditors(repository.findListUserByListAndRole(l.getId(), "Editor"));
         dto.setViewers(repository.findListUserByListAndRole(l.getId(), "Viewer"));
         dto.setItems(itemRepository.getItemsByListId(l.getId()));
@@ -173,12 +173,17 @@ public class ListService {
                 .toList();
     }
 
-    public void socketUpdate(ListDto update) {
+    @Transactional
+    public ListDto socketUpdate(ListDto update) {
         String owner = update.getOwner();
         try {
-            createOrUpdateList(owner,update);
+            return createOrUpdateList(owner,update);
         }
-        catch (Exception ignore){
+        catch (Exception e){
+            logger.log(Level.SEVERE, "unable to update: "+e);
+            UserList current = repository.getUserListById(update.getListInfo().getId());
+            return populateListDto(current);
         }
+
     }
 }

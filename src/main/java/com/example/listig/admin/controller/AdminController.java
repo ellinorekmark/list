@@ -16,7 +16,7 @@ public class AdminController {
     ResponseEntity<Object> getStats() {
 
         Stats stats = adminService.getStats();
-        return ResponseEntity.accepted().body(stats);
+        return ResponseEntity.ok().body(stats);
     }
 
 public record Stats(Long users, Long lists, Long items, Long sharedLists){
