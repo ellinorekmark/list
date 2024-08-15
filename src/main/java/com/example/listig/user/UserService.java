@@ -73,4 +73,16 @@ public class UserService {
         LUser user = userRepository.findUserByUsername(username);
         return user != null;
     }
+
+    public UserDto renewPassword(String username, String newPassword) throws Exception {
+        if(userRepository.existsByUsername(username)){
+            LUser user = userRepository.getUserByUsername(username);
+            user.setPwHash(encoder.encode(newPassword));
+            user =  userRepository.save(user);
+            return new UserDto(user);
+        }
+        else{
+            throw new Exception("Unable to change password");
+        }
+    }
 }

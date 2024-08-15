@@ -3,6 +3,8 @@ package com.example.listig.admin;
 import com.example.listig.admin.controller.AdminController;
 import com.example.listig.lists.repositories.ListItemRepository;
 import com.example.listig.lists.repositories.UserListRepository;
+import com.example.listig.user.UserDto;
+import com.example.listig.user.UserService;
 import com.example.listig.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ public class AdminService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserService userService;
     @Autowired
     ListItemRepository listItemRepository;
     @Autowired
@@ -38,4 +42,7 @@ public class AdminService {
     }
 
 
+    public UserDto resetPassword(AdminController.ResetPassword resetInfo) throws Exception {
+        return userService.renewPassword(resetInfo.username(), resetInfo.password());
+    }
 }

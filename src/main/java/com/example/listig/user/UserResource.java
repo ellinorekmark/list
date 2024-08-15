@@ -43,6 +43,22 @@ public class UserResource {
             return ResponseEntity.ok(false);
         }
     }
+
+    @PostMapping("/newPassword")
+    ResponseEntity<UserDto> renewPassword(@RequestBody Password pw){
+        try{
+            UserDto updatedUser = userService.renewPassword(AuthUtil.getUserName(), pw.password());
+            return ResponseEntity.ok(updatedUser);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
+
     public record Username(String username) {}
+    public record Password(String password){}
+
 }
 

@@ -1,6 +1,7 @@
 package com.example.listig.admin.controller;
 
 import com.example.listig.admin.AdminService;
+import com.example.listig.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,20 @@ public class AdminController {
         return ResponseEntity.ok().body(stats);
     }
 
-public record Stats(Long users, Long lists, Long items, Long sharedLists){
 
+    @PostMapping("/resetPassword")
+    ResponseEntity<UserDto> resetPassword(@RequestBody ResetPassword resetInfo){
+        try{
+            UserDto updated = adminService.resetPassword(resetInfo);
+            return ResponseEntity.ok(updated);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+
+    }
+
+public record Stats(Long users, Long lists, Long items, Long sharedLists){
 }
+public record ResetPassword(String username, String password){}
 }
