@@ -1,4 +1,6 @@
 package com.example.listig.lists;
 
-public record ListOverview(Long id, String name, String desc, String owner, int users, ListType type) {
+import java.time.LocalDateTime;
+
+public record ListOverview(Long id, String name, String desc, String owner, int users, ListType type,LocalDateTime createdAt, LocalDateTime lastEdit) {
 }

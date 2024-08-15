@@ -27,6 +27,9 @@ public class UserList {
     @Column
     private LocalDateTime createdAt;
 
+    @Column
+    private LocalDateTime lastEdited;
+
     public UserList() {
     }
 
@@ -70,4 +73,11 @@ public class UserList {
         this.createdAt = createdAt;
     }
 
+    public LocalDateTime getLastEdited() {
+        return lastEdited;
+    }
+
+    public void setLastEdited(LocalDateTime lastEdited) {
+        this.lastEdited = lastEdited;
+    }
 }

@@ -46,6 +46,7 @@ public class ListService {
         if(list.getCreatedAt()== null){
             list.setCreatedAt(LocalDateTime.now());
         }
+        list.setLastEdited(LocalDateTime.now());
         list = repository.save(list);
         Long listId = list.getId();
 
@@ -169,7 +170,9 @@ public class ListService {
                         l.getListDesc(),
                         repository.findListUserByListAndRole(l.getId(),"Owner").get(0),
                         repository.countUsers(l.getId()).size(),
-                        l.getType()))
+                        l.getType(),
+                        l.getCreatedAt(),
+                        l.getLastEdited()))
                 .toList();
     }
 
