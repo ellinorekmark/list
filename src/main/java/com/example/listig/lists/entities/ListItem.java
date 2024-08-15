@@ -19,6 +19,9 @@ public class ListItem {
     @Column
     private String itemStatus;
 
+    @Column
+    private String itemOrder;
+
     public ListItem() {
 
     }
@@ -54,6 +57,14 @@ public class ListItem {
 
     public void setItemStatus(String itemStatus) {
         this.itemStatus = itemStatus;
+    }
+
+    public String getItemOrder() {
+        return itemOrder;
+    }
+
+    public void setItemOrder(String itemOrder) {
+        this.itemOrder = itemOrder;
     }
 }
 

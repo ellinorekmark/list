@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -83,7 +84,11 @@ public class ListService {
         dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").get(0));
         dto.setEditors(repository.findListUserByListAndRole(l.getId(), "Editor"));
         dto.setViewers(repository.findListUserByListAndRole(l.getId(), "Viewer"));
-        dto.setItems(itemRepository.getItemsByListId(l.getId()));
+        List<ListItem> items = itemRepository.getItemsByListId(l.getId());
+        List<ListItem> sorted = items.stream()
+                .sorted(Comparator.comparing(ListItem::getItemOrder))
+                .toList();
+        dto.setItems(sorted);
         return dto;
     }
 
