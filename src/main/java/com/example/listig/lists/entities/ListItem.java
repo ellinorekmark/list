@@ -20,7 +20,7 @@ public class ListItem {
     private String itemStatus;
 
     @Column
-    private String itemOrder;
+    private Integer itemOrder;
 
     public ListItem() {
 
@@ -59,11 +59,11 @@ public class ListItem {
         this.itemStatus = itemStatus;
     }
 
-    public String getItemOrder() {
+    public Integer getItemOrder() {
         return itemOrder;
     }
 
-    public void setItemOrder(String itemOrder) {
+    public void setItemOrder(Integer itemOrder) {
         this.itemOrder = itemOrder;
     }
 }

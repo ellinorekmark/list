@@ -85,6 +85,11 @@ public class ListService {
         dto.setEditors(repository.findListUserByListAndRole(l.getId(), "Editor"));
         dto.setViewers(repository.findListUserByListAndRole(l.getId(), "Viewer"));
         List<ListItem> items = itemRepository.getItemsByListId(l.getId());
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getItemOrder()== null){
+                items.get(i).setItemOrder(items.size()+i);
+            }
+        }
         List<ListItem> sorted = items.stream()
                 .sorted(Comparator.comparing(ListItem::getItemOrder))
                 .toList();
