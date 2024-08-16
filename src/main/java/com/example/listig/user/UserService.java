@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 
 @Service
@@ -84,5 +87,17 @@ public class UserService {
         else{
             throw new Exception("Unable to change password");
         }
+    }
+
+    public List<UserDto> getAllUsers() {
+        List<LUser> lUsers = userRepository.findAll();
+        if(lUsers.isEmpty()){
+            return List.of();
+        }
+        return lUsers.stream().map(this::convert).toList();
+    }
+
+    private UserDto convert(LUser user){
+        return new UserDto(user);
     }
 }

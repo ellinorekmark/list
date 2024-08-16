@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
@@ -18,6 +20,11 @@ public class AdminController {
 
         Stats stats = adminService.getStats();
         return ResponseEntity.ok().body(stats);
+    }
+    @GetMapping("/users")
+    ResponseEntity<List<UserDto>> getUsers(){
+        List<UserDto> users = adminService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
 
