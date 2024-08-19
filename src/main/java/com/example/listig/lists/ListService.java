@@ -87,7 +87,7 @@ public class ListService {
         List<ListItem> items = itemRepository.getItemsByListId(l.getId());
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getItemOrder()== null){
-                items.get(i).setItemOrder(items.size()+i);
+                items.get(i).setItemOrder(i+1);
             }
         }
         List<ListItem> sorted = items.stream()
