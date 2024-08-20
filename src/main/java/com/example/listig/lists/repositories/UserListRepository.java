@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface UserListRepository extends JpaRepository<UserList, Long> {
     UserList getUserListById(Long id);
+    UserList getUserListByUuid(String uuid);
 
     @Query(value = "SELECT * FROM user_lists l JOIN list_users lu ON l.id = lu.list_id WHERE lu.user_id = :userId", nativeQuery = true)
     List<UserList> findListsByUserId(@Param("userId") Long userId);
@@ -45,4 +46,10 @@ public interface UserListRepository extends JpaRepository<UserList, Long> {
 
     @Query(value = "SELECT user_id FROM list_users WHERE list_id = :id", nativeQuery = true)
     List<String> countUsers(Long id);
+
+    @Modifying
+    @Query("UPDATE UserList e SET e.uuid = NULL WHERE e.id = :id")
+    void setUuidToNullById(Long id);
+
+
 }

@@ -14,6 +14,8 @@ public class UserList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String uuid;
+
     @Column(nullable = false)
     private String listName;
 
@@ -79,5 +81,13 @@ public class UserList {
 
     public void setLastEdited(LocalDateTime lastEdited) {
         this.lastEdited = lastEdited;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

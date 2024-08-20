@@ -29,6 +29,7 @@ public class WebSecurityConfig {
                     auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/api/user/newAccount").permitAll();
                     auth.requestMatchers("/api/user/userExists").permitAll();
+                    auth.requestMatchers("/api/public/**").permitAll();
                     auth.requestMatchers("/api/**").authenticated();
                     auth.requestMatchers("/ws/**").permitAll();
                     auth.requestMatchers("/**").permitAll();

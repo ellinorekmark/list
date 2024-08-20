@@ -101,6 +101,26 @@ public class ListResource {
         }
     }
 
+
+    @PostMapping("/makePublic")
+    ResponseEntity<Object> makePublic(@RequestBody ListDto list) {
+        ListDto updated = null;
+        try {
+            updated = listService.makePublic(list, AuthUtil.getUserName());
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseEntity.ok(list);
+        }
+        return ResponseEntity.ok(updated);
+    }
+
+    @PostMapping("/makePrivate")
+    ResponseEntity<Object> makePrivate(@RequestBody ListDto list){
+        ListDto updated = listService.makePrivate(list);
+        return ResponseEntity.ok(updated);
+
+    }
+
     private boolean userOwnsList(Long listId) {
         return listService.userOwnsList(AuthUtil.getUserName(), listId);
     }
