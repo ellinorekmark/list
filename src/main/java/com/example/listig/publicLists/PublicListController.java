@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/public")
 public class PublicListController {
 
-    @Autowired
     PublicService publicService;
 
+    @Autowired
+    public PublicListController(PublicService publicService) {
+        this.publicService = publicService;
+    }
 
     @GetMapping("/{id}")
     ResponseEntity<Object> getPublicList(@PathVariable("id") String id) {

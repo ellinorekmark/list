@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 public class UserResource {
 
-    @Autowired
     UserService userService;
+
+    @Autowired
+    public UserResource(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping()
     ResponseEntity<UserDto> getUser() {
@@ -54,8 +58,6 @@ public class UserResource {
             return ResponseEntity.badRequest().build();
         }
     }
-
-
 
     public record Username(String username) {}
     public record Password(String password){}

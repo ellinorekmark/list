@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class PublicService {
 
-    @Autowired
     ListService listService;
+
+    @Autowired
+    public PublicService(ListService listService) {
+        this.listService = listService;
+    }
 
     public ListDto getList(String id) {
         return listService.getListByUUID(id);

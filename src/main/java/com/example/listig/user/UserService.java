@@ -14,22 +14,15 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 
 @Service
 public class UserService {
-    @Autowired
+
     UserRepository userRepository;
-    @Autowired
     UserRoleRepository roleRepository;
-    @Autowired
     PasswordEncoder encoder;
 
-
-    public UserService() {
-    }
-
+    @Autowired
     public UserService(UserRepository userRepository, UserRoleRepository roleRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -60,11 +53,6 @@ public class UserService {
             return new UserDto(createUser);
         }
 
-    }
-
-    //TODO: can I remove this method?
-    public LUser loadUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
     }
 
     public UserDto getUser(String userAuth) {

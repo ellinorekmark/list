@@ -14,15 +14,18 @@ import java.util.List;
 @Service
 public class AdminService {
 
-    @Autowired
     UserRepository userRepository;
-    @Autowired
     UserService userService;
-    @Autowired
     ListItemRepository listItemRepository;
-    @Autowired
     UserListRepository listRepository;
 
+    @Autowired
+    public AdminService(UserRepository userRepository, UserService userService, ListItemRepository listItemRepository, UserListRepository listRepository) {
+        this.userRepository = userRepository;
+        this.userService = userService;
+        this.listItemRepository = listItemRepository;
+        this.listRepository = listRepository;
+    }
 
     public Long userCount() {
         return userRepository.count();

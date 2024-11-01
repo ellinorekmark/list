@@ -1,11 +1,9 @@
 package com.example.listig.lists;
 
-import com.example.listig.AuthUtil;
 import com.example.listig.lists.entities.ListItem;
 import com.example.listig.lists.entities.UserList;
 import com.example.listig.lists.repositories.ListItemRepository;
 import com.example.listig.lists.repositories.UserListRepository;
-import com.example.listig.notifications.NotificationService;
 import com.example.listig.user.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +14,21 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
 public class ListService {
 
-    @Autowired
     UserListRepository repository;
-    @Autowired
     ListItemRepository itemRepository;
-    @Autowired
     UserService userService;
-    @Autowired
-    NotificationService notificationService;
 
+    @Autowired
+    public ListService(UserListRepository repository, UserService userService, ListItemRepository itemRepository) {
+        this.repository = repository;
+        this.userService = userService;
+        this.itemRepository = itemRepository;
+    }
 
     private static final Logger logger = Logger.getLogger(ListService.class.getName());
 
@@ -41,17 +39,33 @@ public class ListService {
 
         if (list.getId() != null) {
             if (repository.userHasEditRights(userId, list.getId()) == null) {
-                logger.log(Level.WARNING, "User does not have edit rights on list");
                 throw new Exception("User does not have edit rights on list");
             }
         }
-        if (list.getCreatedAt() == null) {
-            list.setCreatedAt(LocalDateTime.now());
-        }
-        list.setLastEdited(LocalDateTime.now());
-        list = repository.save(list);
-        Long listId = list.getId();
 
+        UserList updatedList = saveList(listDto);
+        return populateListDto(updatedList);
+
+    }
+
+    private UserList saveList(ListDto listDto) {
+        UserList list = listDto.getListInfo();
+        list = saveUserList(list);
+        Long listId = list.getId();
+        saveListUsers(listId, listDto);
+        saveListItems(listId, listDto);
+        return repository.getUserListById(listId);
+    }
+
+    private void saveListItems(Long listId, ListDto listDto) {
+        List<ListItem> items = listDto.getItems();
+        items.forEach(i -> {
+            i.setListId(listId);
+            itemRepository.save(i);
+        });
+    }
+
+    private void saveListUsers(Long listId, ListDto listDto) {
         String owner = listDto.getOwner();
         repository.upsertUserRoleInList(listId, userService.findUserIdByUsername(owner), ListRole.OWNER.toString());
 
@@ -61,15 +75,14 @@ public class ListService {
         List<String> viewers = listDto.getViewers();
         viewers.forEach(v -> repository.upsertUserRoleInList(listId, userService.findUserIdByUsername(v), ListRole.VIEWER.toString()));
 
-        List<ListItem> items = listDto.getItems();
-        items.forEach(i -> {
-            i.setListId(listId);
-            itemRepository.save(i);
-        });
+    }
 
-        UserList updatedList = repository.getUserListById(listId);
-        return populateListDto(updatedList);
-
+    private UserList saveUserList(UserList list) {
+        if (list.getCreatedAt() == null) {
+            list.setCreatedAt(LocalDateTime.now());
+        }
+        list.setLastEdited(LocalDateTime.now());
+        return repository.save(list);
     }
 
     public List<ListDto> getAllListsFromUser(String username) {
@@ -82,7 +95,7 @@ public class ListService {
     private ListDto populateListDto(UserList l) {
         ListDto dto = new ListDto();
         dto.setListInfo(l);
-        dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").get(0));
+        dto.setOwner(repository.findListUserByListAndRole(l.getId(), "Owner").getFirst());
         dto.setEditors(repository.findListUserByListAndRole(l.getId(), "Editor"));
         dto.setViewers(repository.findListUserByListAndRole(l.getId(), "Viewer"));
         List<ListItem> items = itemRepository.getItemsByListId(l.getId());
@@ -127,11 +140,13 @@ public class ListService {
         Long userId = userService.findUserIdByUsername(username);
         return repository.userOwnsList(userId, listId) != null;
     }
+
     private boolean userIsEditor(String username, Long listId) {
-        List<String> editors=  repository.findListUserByListAndRole(listId, "Editor");
+        List<String> editors = repository.findListUserByListAndRole(listId, "Editor");
         return editors.contains(username);
 
     }
+
     @Transactional
     public ListDto addUserToList(Long listId, String user, ListRole role) throws Exception {
 
@@ -143,11 +158,6 @@ public class ListService {
         Optional<UserList> optionalUserList = repository.findById(listId);
         if (optionalUserList.isPresent()) {
             repository.addListUser(listId, userId, role.toString());
-            notificationService.addedToList(
-                    userService.findUserIdByUsername(user),
-                    optionalUserList.get().getListName(),
-                    role.toString(),
-                    AuthUtil.getUserName());
         }
 
         UserList updatedList = repository.getUserListById(listId);
@@ -156,14 +166,12 @@ public class ListService {
     }
 
     public ListDto deleteItem(String username, ListItem item) throws Exception {
-        if (userOwnsList(username, item.getListId()) || userIsEditor(username, item.getListId()) ){
+        if (userOwnsList(username, item.getListId()) || userIsEditor(username, item.getListId())) {
             itemRepository.delete(item);
         }
 
         return getListFromUser(item.getListId(), username);
     }
-
-
 
     @Transactional
     public ListDto removeUserFromList(ListResource.RemoveUser removeUser) throws Exception {
@@ -181,37 +189,33 @@ public class ListService {
     public List<ListOverview> getSummaryFromUser(String username) {
         Long userId = userService.findUserIdByUsername(username);
         List<UserList> userLists = repository.findListsByUserId(userId);
-        return userLists.stream().map(l ->
-                        getOverview(l))
+        return userLists.stream().map(this::getOverview)
                 .toList();
     }
 
     @Transactional
     public ListDto socketUpdate(ListDto update) {
-        String owner = update.getOwner();
         try {
-            return createOrUpdateList(owner, update);
+            UserList updated = saveList(update);
+            return populateListDto(updated);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "unable to update: " + e);
             UserList current = repository.getUserListById(update.getListInfo().getId());
             return populateListDto(current);
         }
-
     }
 
     @Transactional
     public ListDto makePublic(ListDto list, String username) throws Exception {
 
         String uuid = UUID.randomUUID().toString();
-        list.listInfo.setUuid(uuid);
+        list.getListInfo().setUuid(uuid);
 
-
-        return createOrUpdateList(username,list);
+        return createOrUpdateList(username, list);
     }
 
     @Transactional
     public ListDto makePrivate(ListDto list) {
-        Long id = list.listInfo.getId();
+        Long id = list.getListInfo().getId();
         repository.setUuidToNullById(id);
         UserList updated = repository.getUserListById(id);
         list.setListInfo(updated);
@@ -224,7 +228,7 @@ public class ListService {
                 userList.getUuid(),
                 userList.getListName(),
                 userList.getListDesc(),
-                repository.findListUserByListAndRole(userList.getId(), "Owner").get(0),
+                repository.findListUserByListAndRole(userList.getId(), "Owner").getFirst(),
                 repository.countUsers(userList.getId()).size(),
                 userList.getType(),
                 userList.getCreatedAt(),

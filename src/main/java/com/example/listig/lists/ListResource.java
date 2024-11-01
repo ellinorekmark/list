@@ -13,8 +13,12 @@ import java.util.List;
 @RequestMapping("/api/list")
 public class ListResource {
 
-    @Autowired
     ListService listService;
+
+    @Autowired
+    public ListResource(ListService listService) {
+        this.listService = listService;
+    }
 
     @GetMapping()
     ResponseEntity<List<ListDto>> getAllUserLists() {
@@ -101,17 +105,16 @@ public class ListResource {
         }
     }
 
-
     @PostMapping("/makePublic")
     ResponseEntity<Object> makePublic(@RequestBody ListDto list) {
-        ListDto updated = null;
+
         try {
-            updated = listService.makePublic(list, AuthUtil.getUserName());
+            ListDto updated = listService.makePublic(list, AuthUtil.getUserName());
+            return ResponseEntity.ok(updated);
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.ok(list);
         }
-        return ResponseEntity.ok(updated);
+
     }
 
     @PostMapping("/makePrivate")

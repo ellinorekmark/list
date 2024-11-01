@@ -6,7 +6,7 @@ import com.example.listig.lists.entities.UserList;
 import java.util.List;
 
 public class ListDto {
-    UserList listInfo;
+    private UserList listInfo;
     private String owner;
     private List<String> editors;
     private List<String> viewers;
