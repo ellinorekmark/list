@@ -30,6 +30,10 @@ public enum ListType {
         public String toString() {
             return "Rank";
         }
+    },
+    MULTI{
+        @Override
+        public String toString() {return "Multi";}
     }
 
 }

@@ -32,6 +32,18 @@ public class UserList {
     @Column
     private LocalDateTime lastEdited;
 
+    @Column
+    private Boolean hasCheck;
+
+    @Column
+    private Boolean hasLink;
+
+    @Column
+    private Boolean hasRank;
+
+    @Column
+    private Boolean hasComment;
+
     public UserList() {
     }
 
@@ -89,5 +101,37 @@ public class UserList {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public Boolean getHasCheck() {
+        return hasCheck;
+    }
+
+    public void setHasCheck(Boolean hasCheck) {
+        this.hasCheck = hasCheck;
+    }
+
+    public Boolean getHasLink() {
+        return hasLink;
+    }
+
+    public void setHasLink(Boolean hasLink) {
+        this.hasLink = hasLink;
+    }
+
+    public Boolean getHasRank() {
+        return hasRank;
+    }
+
+    public void setHasRank(Boolean hasRank) {
+        this.hasRank = hasRank;
+    }
+
+    public Boolean getHasComment() {
+        return hasComment;
+    }
+
+    public void setHasComment(Boolean hasComment) {
+        this.hasComment = hasComment;
     }
 }

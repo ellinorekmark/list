@@ -22,6 +22,15 @@ public class ListItem {
     @Column
     private Integer itemOrder;
 
+    @Column
+    private Boolean checked;
+
+    @Column
+    private String link;
+
+    @Column
+    private String comment;
+
     public ListItem() {
 
     }
@@ -65,6 +74,30 @@ public class ListItem {
 
     public void setItemOrder(Integer itemOrder) {
         this.itemOrder = itemOrder;
+    }
+
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
 
