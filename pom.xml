@@ -105,7 +105,7 @@
 							<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--enable-url-protocols=http</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
 
 						</env>
-						<name>tiny:32000/${project.artifactId}:${project.version}.${env.BUILD_NUMBER}</name>
+						<name>tiny:5000/${project.artifactId}:${project.version}.${env.BUILD_NUMBER}</name>
 					</image>
 
 				</configuration>
