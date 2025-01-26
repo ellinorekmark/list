@@ -35,7 +35,7 @@ pipeline {
         stage('Build docker') {
             steps {
                 sh 'mvn spring-boot:build-image -DskipTests'
-                sh "docker image push tiny:32000/${IMAGE}:${VERSION}.${env.BUILD_NUMBER}"
+                sh "docker image push tiny:5000/${IMAGE}:${VERSION}.${env.BUILD_NUMBER}"
             }
         }
         stage('Apply Kube files') {
