@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: list
-        image: localhost:32000/{{IMAGE}}:{{VERSION}}.{{BUILD_NUMBER}}
+        image: 192.168.68.133:5000/{{IMAGE}}:{{VERSION}}.{{BUILD_NUMBER}}
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
