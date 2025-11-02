@@ -44,7 +44,9 @@ pipeline {
     			sh "sed -i 's/{{VERSION}}/${VERSION}/g' ./kube/*.yaml"
     			sh "sed -i 's/{{IMAGE}}/${IMAGE}/g' ./kube/*.yaml"
     			sh "sed -i 's/{{BUILD_NUMBER}}/${env.BUILD_NUMBER}/g' ./kube/*.yaml"
-                sh "microk8s kubectl apply -f ./kube -n ${params.NAMESPACE}"
+                withKubeConfig([credentialsId: '590c1fd1-6a14-4abd-a1bf-1f269f063811', serverUrl: 'https://192.168.68.133:16443', namespace: 'ekmark']) {
+                  sh "kubectl apply -f ./kube -n ${params.NAMESPACE}"
+                }
             }
 	    }
     }
